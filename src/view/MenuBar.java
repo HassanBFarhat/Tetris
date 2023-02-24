@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  * MenuBar class creates the menubar for the game panel and
@@ -27,15 +29,28 @@ public class MenuBar extends JMenuBar {
      */
     public MenuBar() {
         super();
-        final JMenu newGameMenuBtn = new JMenu("New Game");
-        final JMenu menuBtn = new JMenu("Menu");
-        final JMenu aboutMenuBtn = new JMenu("About");
-        this.add(newGameMenuBtn);
-        this.add(menuBtn);
-        this.add(aboutMenuBtn);
+        this.add(buildFileMenu());
         this.setPreferredSize(new Dimension(MENU_BAR_WIDTH, MENU_BAR_HEIGHT));
         this.setBackground(Color.CYAN);
         this.setVisible(true);
+    }
+
+
+    private JMenu buildFileMenu() {
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.add(buildMenuItem("New Game"));
+        fileMenu.addSeparator();
+        fileMenu.add(buildMenuItem("Exit"));
+        fileMenu.addSeparator();
+        fileMenu.add(buildMenuItem("About"));
+        return fileMenu;
+    }
+
+    private JMenuItem buildMenuItem(final String theText) {
+        final JMenuItem menuItem = new JMenuItem(theText);
+        menuItem.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "This will do something soon."));
+        return menuItem;
     }
 
 }

@@ -4,7 +4,8 @@ import javax.swing.JFrame;
 import view.MainGamePanel;
 
 /**
- * This is the main window that'll hold/start our tetris game application.
+ * This is the Utility Class for kicking off main GUI window that'll
+ * hold/start our tetris game application.
  *
  * @author Hassan Farhat
  * @version Winter 2023
