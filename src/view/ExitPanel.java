@@ -24,7 +24,7 @@ public class ExitPanel extends JPanel {
      */
     public ExitPanel() {
         super();
-        this.setBackground(Color.MAGENTA);
+        this.setBackground(Color.GREEN);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);
     }

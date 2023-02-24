@@ -29,9 +29,9 @@ public class ScoreInfoPanel extends JPanel {
         final JPanel score = new JPanel();
         final JPanel highScore = new JPanel();
 
-        score.setBackground(Color.DARK_GRAY);
+        score.setBackground(Color.GREEN);
         score.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
-        highScore.setBackground(Color.GRAY);
+        highScore.setBackground(Color.GREEN);
         highScore.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
 
         this.add(score, BorderLayout.WEST);
