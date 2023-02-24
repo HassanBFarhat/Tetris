@@ -26,7 +26,8 @@ public final class Application {
 
     /**
      * This is the main method that'll run our tetris application.
-     * @param theArgs allows us to run array of string arguments to be executed in our program.
+     * @param theArgs allows us to run array of string arguments to
+     *                be executed in our program.
      */
     public static void main(final String[] theArgs) {
         final JFrame gameFrame = new JFrame("Tetris");
