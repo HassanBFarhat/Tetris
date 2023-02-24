@@ -1,4 +1,4 @@
-# Heading 1 # Group7-Tetris TCSS 305
+# Group7-Tetris TCSS 305
    Ashvir
     - Sprint and github management, primarily tasked with organization of code and deliverables for sprints.
   Hassan
