@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.Serial;
 import javax.swing.JPanel;
 
 /**
@@ -12,12 +13,16 @@ import javax.swing.JPanel;
  */
 public class ExitPanel extends JPanel {
 
+    /**  A generated serial version UID for object Serialization. */
+    @Serial
+    private static final long serialVersionUID = 5325683154823768841L;
 
     /** Width constant. */
     private static final int EXIT_WIDTH = 400;
 
     /** Height constant. */
     private static final int EXIT_HEIGHT = 210;
+
 
     /**
      * sets up panel where exit button will be.

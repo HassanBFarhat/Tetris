@@ -3,6 +3,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.Serial;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -17,12 +18,16 @@ import javax.swing.JOptionPane;
  */
 public class MenuBar extends JMenuBar {
 
+    /**  A generated serial version UID for object Serialization. */
+    @Serial
+    private static final long serialVersionUID = -111659266189879540L;
 
     /** Width constant. */
     private static final int MENU_BAR_WIDTH = 30;
 
     /** Height constant. */
     private static final int MENU_BAR_HEIGHT = 30;
+
 
     /**
      * Creates the menubar and menu buttons to be used in the game panel.

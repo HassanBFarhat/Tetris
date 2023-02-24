@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.Serial;
 import javax.swing.JPanel;
 
 /**
@@ -13,11 +14,16 @@ import javax.swing.JPanel;
  */
 public class ScoreInfoPanel extends JPanel {
 
+    /**  A generated serial version UID for object Serialization. */
+    @Serial
+    private static final long serialVersionUID = 6676899090276534542L;
+
     /** Width constant. */
     private static final int SCORE_WIDTH = 200;
 
     /** Height constant. */
     private static final int SCORE_HEIGHT = 255;
+
 
     /**
      * Sets up the panels for displaying score / high score.

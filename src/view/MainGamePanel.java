@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import javax.swing.JPanel;
 
 /**
@@ -10,6 +11,10 @@ import javax.swing.JPanel;
  * @version Winter 2023
  */
 public class MainGamePanel extends JPanel {
+
+    /**  A generated serial version UID for object Serialization. */
+    @Serial
+    private static final long serialVersionUID = 3714869667229553345L;
 
     /**
      * MainGamePanel Constructor allows the main panel and MenuBar to be set up.

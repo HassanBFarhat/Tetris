@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.Serial;
 import javax.swing.JPanel;
 
 
@@ -13,11 +14,16 @@ import javax.swing.JPanel;
  */
 public class InformationPanel extends JPanel {
 
+    /**  A generated serial version UID for object Serialization. */
+    @Serial
+    private static final long serialVersionUID = -3071268708346186062L;
+
     /** Width constant. */
     private static final int INFO_PANEL_WIDTH = 400;
 
     /** Height constant. */
     private static final int INFO_PANEL_HEIGHT = 100;
+
 
 
     /**
