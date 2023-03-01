@@ -6,6 +6,8 @@
 
 package model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +34,7 @@ import model.wallkicks.WallKick;
  * @author Alan Fowler
  * @version 1.3
  */
-public class Board {
+public class Board implements PropertyChangeGamePieces {
 
     // Class constants
     
@@ -95,6 +97,12 @@ public class Board {
      * down movement in the drop.
      */
     private boolean myDrop;
+
+    /**
+     * The property change support responsible for dispatching change event
+     * to observables.
+     */
+    private PropertyChangeSupport myPcs;
     
     // Constructors
 
@@ -104,6 +112,7 @@ public class Board {
      */
     public Board() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        myPcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -120,7 +129,8 @@ public class Board {
          
         myNonRandomPieces = new ArrayList<TetrisPiece>();
         mySequenceIndex = 0;
-        
+        myPcs = new PropertyChangeSupport(this);
+
         /*  myNextPiece and myCurrentPiece
          *  are initialized by the newGame() method.
          */
@@ -333,7 +343,30 @@ public class Board {
         return sb.toString();
     }
 
-    
+
+    /**
+     * Adds a property change listener to the list of listeners in
+     * Property Change Support.
+     *
+     * @param theListener The PropertyChangeListener to be added
+     */
+    @Override
+    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
+        myPcs.addPropertyChangeListener(theListener);
+    }
+
+    /**
+     * Removes a property change listener from the list of listeners in
+     * Property Change Support.
+     *
+     * @param theListener The PropertyChangeListener to be removed
+     */
+    @Override
+    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
+        myPcs.removePropertyChangeListener(theListener);
+    }
+
+
     // private helper methods
     
     /**
@@ -540,9 +573,10 @@ public class Board {
         if (share && !myGameOver) {
             // TODO Publish Update!
         }
-    }    
+    }
 
-    
+
+
     // Inner classes
 
     /**
