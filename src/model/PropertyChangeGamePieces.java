@@ -2,7 +2,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 
-public interface PropertyChangeGamePieces extends GameBoard {
+public interface PropertyChangeGamePieces extends BoardLayoutAndControls {
 
     /** A property name for current game piece to move down. */
     String PROPERTY_DOWN = "down";
@@ -22,6 +22,8 @@ public interface PropertyChangeGamePieces extends GameBoard {
     /** A property name for current game piece to drop down. */
     String PROPERTY_DROP = "drop";
 
+    /** A property name for current game piece to drop down. */
+    String PROPERTY_CHANGED = "changed board";
 
     /**
      * Add a PropertyChangeListener to the listener list. The listener is registered for

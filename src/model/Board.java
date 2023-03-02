@@ -223,6 +223,9 @@ public class Board implements PropertyChangeGamePieces {
             }
             // TODO Publish Update!
         }
+        // TODO: not sure if this is the proper implementation.
+        myCurrentPiece.getPosition().transform(0, 1);
+        myPcs.firePropertyChange(PROPERTY_DOWN, null, myCurrentPiece.getPosition());
     }
 
     /**
@@ -231,6 +234,10 @@ public class Board implements PropertyChangeGamePieces {
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
+
+            // TODO: not sure if this is the proper implementation.
+            myCurrentPiece.getPosition().transform(-1, 0);
+            myPcs.firePropertyChange(PROPERTY_LEFT, null, myCurrentPiece.getPosition());
         }
     }
 
@@ -240,6 +247,10 @@ public class Board implements PropertyChangeGamePieces {
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
+
+            // TODO: not sure if this is the proper implementation.
+            myCurrentPiece.getPosition().transform(1, 0);
+            myPcs.firePropertyChange(PROPERTY_RIGHT, null, myCurrentPiece.getPosition());
         }
     }
 

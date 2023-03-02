@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public interface GameBoard {
+public interface BoardLayoutAndControls {
 
     /**
      * Get the width of the board.
