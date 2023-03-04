@@ -1,8 +1,9 @@
 package model;
 
+import java.awt.*;
 import java.util.List;
 
-public interface BoardLayoutAndControls {
+public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
 
     /**
      * Get the width of the board.
@@ -17,6 +18,14 @@ public interface BoardLayoutAndControls {
      * @return Height of the board.
      */
     int getHeight();
+
+
+    /**
+     * Get the board dimensions.
+     *
+     * @return Height of the board.
+     */
+    Dimension getBoardDimensions();
 
     /**
      * Resets the board for a new game.

@@ -6,6 +6,7 @@
 
 package model;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import model.wallkicks.WallKick;
  * @author Alan Fowler
  * @version 1.3
  */
-public class Board implements PropertyChangeGamePieces {
+public class Board implements BoardLayoutAndControls {
 
     // Class constants
     
@@ -103,7 +104,12 @@ public class Board implements PropertyChangeGamePieces {
      * to observables.
      */
     private PropertyChangeSupport myPcs;
-    
+
+    /**Store board dimension.*/
+    private final Dimension myDimension;
+
+
+
     // Constructors
 
     /**
@@ -125,6 +131,7 @@ public class Board implements PropertyChangeGamePieces {
         super();
         myWidth = theWidth;
         myHeight = theHeight;
+        myDimension = new Dimension(myWidth, myHeight);
         myFrozenBlocks = new LinkedList<Block[]>();
          
         myNonRandomPieces = new ArrayList<TetrisPiece>();
@@ -222,10 +229,11 @@ public class Board implements PropertyChangeGamePieces {
                 myCurrentPiece = nextMovablePiece(false);
             }
             // TODO Publish Update!
+            final model.Point oldPos = myCurrentPiece.getPosition();
+            myCurrentPiece.getPosition().transform(0, 1);
+            myPcs.firePropertyChange(PROPERTY_DOWN, oldPos, myCurrentPiece.getPosition());
         }
-        // TODO: not sure if this is the proper implementation.
-        myCurrentPiece.getPosition().transform(0, 1);
-        myPcs.firePropertyChange(PROPERTY_DOWN, null, myCurrentPiece.getPosition());
+
     }
 
     /**
@@ -236,8 +244,9 @@ public class Board implements PropertyChangeGamePieces {
             move(myCurrentPiece.left());
 
             // TODO: not sure if this is the proper implementation.
+            final model.Point oldPos = myCurrentPiece.getPosition();
             myCurrentPiece.getPosition().transform(-1, 0);
-            myPcs.firePropertyChange(PROPERTY_LEFT, null, myCurrentPiece.getPosition());
+            myPcs.firePropertyChange(PROPERTY_LEFT, oldPos, myCurrentPiece.getPosition());
         }
     }
 
@@ -249,8 +258,9 @@ public class Board implements PropertyChangeGamePieces {
             move(myCurrentPiece.right());
 
             // TODO: not sure if this is the proper implementation.
+            final model.Point oldPos = myCurrentPiece.getPosition();
             myCurrentPiece.getPosition().transform(1, 0);
-            myPcs.firePropertyChange(PROPERTY_RIGHT, null, myCurrentPiece.getPosition());
+            myPcs.firePropertyChange(PROPERTY_RIGHT, oldPos, myCurrentPiece.getPosition());
         }
     }
 
@@ -353,6 +363,17 @@ public class Board implements PropertyChangeGamePieces {
         sb.append('|');
         return sb.toString();
     }
+
+    /**
+     * Get the board dimensions.
+     *
+     * @return Height of the board.
+     */
+    @Override
+    public Dimension getBoardDimensions() {
+        return new Dimension(myDimension);
+    }
+
 
 
     /**

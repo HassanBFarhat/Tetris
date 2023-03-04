@@ -2,7 +2,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 
-public interface PropertyChangeGamePieces extends BoardLayoutAndControls {
+public interface PropertyChangeGamePieces {
 
     /** A property name for current game piece to move down. */
     String PROPERTY_DOWN = "down";

@@ -13,7 +13,7 @@ import view.MainGamePanel;
 public final class Application {
 
     /** Constant value for frame width. */
-    private static final int FRAME_WIDTH = 800;
+    private static final int FRAME_WIDTH = 787;
 
     /** Constant value for frame height. */
     private static final int FRAME_HEIGHT = 700;
@@ -35,6 +35,7 @@ public final class Application {
         final MainGamePanel mainPanel = new MainGamePanel();
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        gameFrame.setResizable(false);
         gameFrame.setContentPane(mainPanel);
         gameFrame.setVisible(true);
     }
