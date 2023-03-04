@@ -229,7 +229,7 @@ public class Board implements BoardLayoutAndControls {
                 myCurrentPiece = nextMovablePiece(false);
             }
             // TODO Publish Update!
-            final model.Point oldPos = myCurrentPiece.getPosition();
+            final Point oldPos = myCurrentPiece.getPosition();
             myCurrentPiece.getPosition().transform(0, 1);
             myPcs.firePropertyChange(PROPERTY_DOWN, oldPos, myCurrentPiece.getPosition());
         }
@@ -244,7 +244,7 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.left());
 
             // TODO: not sure if this is the proper implementation.
-            final model.Point oldPos = myCurrentPiece.getPosition();
+            final Point oldPos = myCurrentPiece.getPosition();
             myCurrentPiece.getPosition().transform(-1, 0);
             myPcs.firePropertyChange(PROPERTY_LEFT, oldPos, myCurrentPiece.getPosition());
         }
@@ -258,7 +258,7 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.right());
 
             // TODO: not sure if this is the proper implementation.
-            final model.Point oldPos = myCurrentPiece.getPosition();
+            final Point oldPos = myCurrentPiece.getPosition();
             myCurrentPiece.getPosition().transform(1, 0);
             myPcs.firePropertyChange(PROPERTY_RIGHT, oldPos, myCurrentPiece.getPosition());
         }

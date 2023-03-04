@@ -13,6 +13,8 @@ import javax.swing.JPanel;
  */
 public class ExitPanel extends JPanel {
 
+    // instance fields
+
     /**  A generated serial version UID for object Serialization. */
     @Serial
     private static final long serialVersionUID = 5325683154823768841L;
@@ -23,6 +25,8 @@ public class ExitPanel extends JPanel {
     /** Height constant. */
     private static final int EXIT_HEIGHT = 210;
 
+
+    // constructor
 
     /**
      * sets up panel where exit button will be.

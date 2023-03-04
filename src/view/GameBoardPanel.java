@@ -1,22 +1,22 @@
 package view;
 
 import static model.PropertyChangeGamePieces.PROPERTY_CHANGED;
-import model.Board;
-import model.BoardLayoutAndControls;
-import model.MovableTetrisPiece;
-import model.PropertyChangeGamePieces;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.*;
+import javax.swing.JPanel;
+import model.Board;
+import model.BoardLayoutAndControls;
 
 /**
  * Sets up the Game board where player will see and play the game.
@@ -25,6 +25,8 @@ import javax.swing.*;
  * @version Winter 2023
  */
 public class GameBoardPanel extends JPanel implements PropertyChangeListener {
+
+    // instance fields
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -49,6 +51,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     private final RectangularShape myTestPiece;
 
 
+    // constructor
 
     /**
      * Constructor sets up the panel for the game board.
@@ -57,7 +60,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         super();
 
         this.myBoard = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
-        myTestPiece = new Ellipse2D.Double(0,0,RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+        myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
 
         myBoard.addPropertyChangeListener(this);
 
@@ -67,15 +70,20 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         this.setVisible(true);
     }
 
+    // public methods
 
-
-
-
+    /**
+     * Helps to draw the game board grid layout and display a
+     * TEST PIECE on the board.
+     *
+     * @param theGraphics the <code>Graphics</code> object to protect
+     */
     @Override
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);
         final Graphics2D g2d = (Graphics2D) theGraphics;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setPaint(Color.BLACK);
         for (int row = 0; row < myBoard.getHeight(); row++) {
@@ -91,8 +99,13 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         g2d.fill(myTestPiece);
     }
 
-
-    //_________________________________________________________________
+    /**
+     * Once a certain property is changed within the model, a propertyChange
+     * is fired and game board is updated.
+     *
+     * @param theEvent A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
@@ -106,9 +119,5 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
             repaint();
         }
     }
-
-
-
-
 
 }

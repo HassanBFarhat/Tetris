@@ -1,8 +1,15 @@
 package model;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.List;
 
+/**
+ * This is an interface which lays out all the public API methods
+ * that will be utilized within our Board.java class.
+ *
+ * @author Hassan Farhat
+ * @version Winter 2023
+ */
 public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
 
     /**
@@ -83,6 +90,9 @@ public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
      */
     void drop();
 
+    /**
+     * Displays a string representation of the Game Board.
+     */
     String toString();
 
 }
