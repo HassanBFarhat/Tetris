@@ -38,6 +38,12 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     /** Height constant. */
     private static final int GAME_BOARD_HEIGHT = 400;
 
+    /** GameGrid Number of Rows. */
+    private static final int GAME_BOARD_ROWS = 20;
+
+    /** GameGrid Number of Columns. */
+    private static final int GAME_BOARD_COLS = 10;
+
     /** The width for the rectangle. */
     private static final int RECTANGLE_WIDTH = 37;
 
@@ -86,8 +92,8 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setPaint(Color.BLACK);
-        for (int row = 0; row < myBoard.getHeight(); row++) {
-            for (int col = 0; col < myBoard.getWidth(); col++) {
+        for (int row = 0; row < GAME_BOARD_ROWS; row++) {
+            for (int col = 0; col < GAME_BOARD_COLS; col++) {
                 g2d.draw(new Rectangle2D.Double(col * RECTANGLE_WIDTH,
                         row * RECTANGLE_HEIGHT + 1,
                         RECTANGLE_WIDTH,
