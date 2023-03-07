@@ -42,7 +42,7 @@ public enum Rotation {
     private static final Random GENERATOR = new Random();
 
     /**
-     * Create a new Rotation from this one rotated clockwise.
+     * Create a new Rotation from this one rotated clock-wise.
      * 
      * @return new Rotation object that is rotated 90 degrees clockwise.
      */
