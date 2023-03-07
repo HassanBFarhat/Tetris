@@ -12,6 +12,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import interfaces.BoardLayoutAndControls;
 import model.wallkicks.WallKick;
 
 /**

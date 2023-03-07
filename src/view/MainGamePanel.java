@@ -8,7 +8,7 @@ import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.Board;
-import model.BoardLayoutAndControls;
+import interfaces.BoardLayoutAndControls;
 
 /**
  * Class holds the main game panel with menu bar.

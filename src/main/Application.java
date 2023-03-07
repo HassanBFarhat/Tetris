@@ -16,7 +16,7 @@ public final class Application {
     private static final int FRAME_WIDTH = 787;
 
     /** Constant value for frame height. */
-    private static final int FRAME_HEIGHT = 700;
+    private static final int FRAME_HEIGHT = 810;
 
 
 

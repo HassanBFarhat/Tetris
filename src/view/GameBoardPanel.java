@@ -1,6 +1,6 @@
 package view;
 
-import static model.PropertyChangeGamePieces.PROPERTY_CHANGED;
+import static interfaces.PropertyChangeGamePieces.PROPERTY_CHANGED;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
 import model.Board;
-import model.BoardLayoutAndControls;
+import interfaces.BoardLayoutAndControls;
 
 /**
  * Sets up the Game board where player will see and play the game.

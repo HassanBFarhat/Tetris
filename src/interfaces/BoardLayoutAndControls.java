@@ -1,7 +1,9 @@
-package model;
+package interfaces;
+
 
 import java.awt.Dimension;
 import java.util.List;
+import model.TetrisPiece;
 
 /**
  * This is an interface which lays out all the public API methods
