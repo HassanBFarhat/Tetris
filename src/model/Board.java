@@ -52,7 +52,7 @@ public class Board implements BoardLayoutAndControls {
     private static final int DEFAULT_HEIGHT = 20;
 
     
-    // Instance fields
+    // Instance fields for board
     
     /**
      * Width of the game board.
