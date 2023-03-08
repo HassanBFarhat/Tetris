@@ -1,8 +1,13 @@
 package view;
 
+import interfaces.BoardLayoutAndControls;
+import model.Board;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
 
@@ -12,7 +17,7 @@ import javax.swing.JPanel;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class ScoreInfoPanel extends JPanel {
+public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -24,12 +29,17 @@ public class ScoreInfoPanel extends JPanel {
     /** Height constant. */
     private static final int SCORE_HEIGHT = 255;
 
+    /***/
+    private BoardLayoutAndControls myBoard;
+
 
     /**
      * Sets up the panels for displaying score / high score.
      */
-    public ScoreInfoPanel() {
+    public ScoreInfoPanel(final Board theBoard) {
         super();
+        myBoard = theBoard;
+        myBoard.addPropertyChangeListener(this);
         this.setLayout(new BorderLayout());
 
         final JPanel score = new JPanel();
@@ -42,5 +52,13 @@ public class ScoreInfoPanel extends JPanel {
 
         this.add(score, BorderLayout.WEST);
         this.add(highScore, BorderLayout.EAST);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (Board.PROPERTY_CHANGED.equals(evt.getPropertyName())) {
+            repaint();
+        }
+        repaint();
     }
 }

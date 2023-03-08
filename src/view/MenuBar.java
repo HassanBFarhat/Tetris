@@ -1,6 +1,9 @@
 package view;
 
 
+import interfaces.BoardLayoutAndControls;
+import model.Board;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.Serial;
@@ -28,12 +31,16 @@ public class MenuBar extends JMenuBar {
     /** Height constant. */
     private static final int MENU_BAR_HEIGHT = 30;
 
+    /***/
+    private BoardLayoutAndControls myBoard;
+
 
     /**
      * Creates the menubar and menu buttons to be used in the game panel.
      */
-    public MenuBar() {
+    public MenuBar(final Board theBoard) {
         super();
+        myBoard = theBoard;
         this.add(buildFileMenu());
         this.setPreferredSize(new Dimension(MENU_BAR_WIDTH, MENU_BAR_HEIGHT));
         this.setBackground(Color.CYAN);

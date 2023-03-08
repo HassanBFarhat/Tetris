@@ -1,5 +1,8 @@
 package view;
 
+import interfaces.BoardLayoutAndControls;
+import model.Board;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.Serial;
@@ -25,14 +28,18 @@ public class ExitPanel extends JPanel {
     /** Height constant. */
     private static final int EXIT_HEIGHT = 210;
 
+    /***/
+    private BoardLayoutAndControls myBoard;
+
 
     // constructor
 
     /**
      * sets up panel where exit button will be.
      */
-    public ExitPanel() {
+    public ExitPanel(final Board theBoard) {
         super();
+        myBoard = theBoard;
         this.setBackground(Color.GREEN);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);

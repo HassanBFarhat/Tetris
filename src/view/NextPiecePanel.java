@@ -90,13 +90,11 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+        g2d.setPaint(Color.WHITE);
+        g2d.draw(new Rectangle2D.Double(X_COOR_VALUE - 1, Y_COOR_VALUE - 1,
+                RECTANGLE_WIDTH + 1, RECTANGLE_HEIGHT + 1));
         g2d.setPaint(Color.PINK);
-        g2d.draw(new Rectangle2D.Double(X_COOR_VALUE, Y_COOR_VALUE,
-                RECTANGLE_WIDTH, RECTANGLE_HEIGHT));
         g2d.fill(myTestPiece);
-
-//        g2d.setPaint(Color.PINK);
-//        g2d.fill(myTestPiece);
     }
 
 

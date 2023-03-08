@@ -1,6 +1,8 @@
 package main;
 
 import javax.swing.JFrame;
+
+import model.Board;
 import view.MainGamePanel;
 
 /**
@@ -32,7 +34,8 @@ public final class Application {
      */
     public static void main(final String[] theArgs) {
         final JFrame gameFrame = new JFrame("Tetris");
-        final MainGamePanel mainPanel = new MainGamePanel();
+        final Board board = new Board();
+        final MainGamePanel mainPanel = new MainGamePanel(board);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         gameFrame.setResizable(false);

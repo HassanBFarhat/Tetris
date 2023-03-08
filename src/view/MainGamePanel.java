@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -16,7 +18,7 @@ import interfaces.BoardLayoutAndControls;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class MainGamePanel extends JPanel {
+public class MainGamePanel extends JPanel implements PropertyChangeListener {
 
     // instance fields
 
@@ -28,7 +30,7 @@ public class MainGamePanel extends JPanel {
     private static final int TIME_DELAY = 1000;
 
     /**The Board.*/
-    private final BoardLayoutAndControls myBoard;
+    private final Board myBoard;
 
     /** This timer. */
     private final Timer myTimer;
@@ -39,13 +41,14 @@ public class MainGamePanel extends JPanel {
     /**
      * MainGamePanel Constructor allows the main panel and MenuBar to be set up.
      */
-    public MainGamePanel() {
+    public MainGamePanel(final Board theBoard) {
         super();
         this.setLayout(new BorderLayout());
-        this.myBoard = new Board();
+        this.myBoard = theBoard;
+        this.myBoard.addPropertyChangeListener(this);
         this.myTimer = new Timer(TIME_DELAY, this::handleTimer);
         setUpKeyListener();
-        setUpGUI();
+        setUpGUI(myBoard);
     }
 
 
@@ -64,15 +67,23 @@ public class MainGamePanel extends JPanel {
     }
 
     /** Sets up the main panels within the GUI. */
-    private void setUpGUI() {
-        final MenuBar menuBar = new MenuBar();
+    private void setUpGUI(final Board theBoard) {
+        final MenuBar menuBar = new MenuBar(theBoard);
         this.add(menuBar, BorderLayout.NORTH);
 
-        final InformationPanel infoPanel = new InformationPanel();
+        final InformationPanel infoPanel = new InformationPanel(theBoard);
         this.add(infoPanel, BorderLayout.EAST);
 
-        final GameBoardPanel gameBoardPanel = new GameBoardPanel();
+        final GameBoardPanel gameBoardPanel = new GameBoardPanel(theBoard);
         this.add(gameBoardPanel, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (Board.PROPERTY_CHANGED.equals(evt.getPropertyName())) {
+            repaint();
+        }
+        repaint();
     }
 
     // inner class

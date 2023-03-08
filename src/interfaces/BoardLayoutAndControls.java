@@ -28,14 +28,6 @@ public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
      */
     int getHeight();
 
-
-    /**
-     * Get the board dimensions.
-     *
-     * @return Height of the board.
-     */
-    Dimension getBoardDimensions();
-
     /**
      * Resets the board for a new game.
      * This method must be called before the first game

@@ -62,16 +62,16 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     /**
      * Constructor sets up the panel for the game board.
      */
-    public GameBoardPanel() {
+    public GameBoardPanel(final Board theBoard) {
         super();
 
-        this.myBoard = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
+        this.myBoard = theBoard;
         myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
 
         myBoard.addPropertyChangeListener(this);
 
 
-        this.setBackground(Color.RED);
+        this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT));
         this.setVisible(true);
     }

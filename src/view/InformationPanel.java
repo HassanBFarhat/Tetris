@@ -1,5 +1,8 @@
 package view;
 
+import interfaces.BoardLayoutAndControls;
+import model.Board;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.Serial;
@@ -24,23 +27,27 @@ public class InformationPanel extends JPanel {
     /** Height constant. */
     private static final int INFO_PANEL_HEIGHT = 100;
 
+    /***/
+    private Board myBoard;
+
 
 
     /**
      * Creates the panel where all info for player will be visible.
      */
-    public InformationPanel() {
+    public InformationPanel(final Board theBoard) {
         super();
+        myBoard = theBoard;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT));
 
         final NextPiecePanel nextPiecePanel = new NextPiecePanel();
         this.add(nextPiecePanel, BorderLayout.NORTH);
 
-        final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel();
+        final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel(myBoard);
         this.add(scoreInfoPanel, BorderLayout.CENTER);
 
-        final ExitPanel exitPanel = new ExitPanel();
+        final ExitPanel exitPanel = new ExitPanel(myBoard);
         this.add(exitPanel, BorderLayout.SOUTH);
 
         this.setVisible(true);

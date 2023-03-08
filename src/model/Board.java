@@ -107,8 +107,6 @@ public class Board implements BoardLayoutAndControls {
      */
     private PropertyChangeSupport myPcs;
 
-    /**Store board dimension.*/
-    private final Dimension myDimension;
 
 
 
@@ -133,9 +131,7 @@ public class Board implements BoardLayoutAndControls {
         super();
         myWidth = theWidth;
         myHeight = theHeight;
-        myDimension = new Dimension(myWidth, myHeight);
         myFrozenBlocks = new LinkedList<Block[]>();
-         
         myNonRandomPieces = new ArrayList<TetrisPiece>();
         mySequenceIndex = 0;
         myPcs = new PropertyChangeSupport(this);
@@ -231,9 +227,8 @@ public class Board implements BoardLayoutAndControls {
                 myCurrentPiece = nextMovablePiece(false);
             }
             // TODO Publish Update!
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(0, 1);
-            myPcs.firePropertyChange(PROPERTY_DOWN, oldPos, myCurrentPiece.getPosition());
+            myCurrentPiece.down();
+            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
         }
 
     }
@@ -246,9 +241,8 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.left());
 
             // TODO: not sure if this is the proper implementation.
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(-1, 0);
-            myPcs.firePropertyChange(PROPERTY_LEFT, oldPos, myCurrentPiece.getPosition());
+            myCurrentPiece.left();
+            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
         }
     }
 
@@ -260,9 +254,8 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.right());
 
             // TODO: not sure if this is the proper implementation.
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(1, 0);
-            myPcs.firePropertyChange(PROPERTY_RIGHT, oldPos, myCurrentPiece.getPosition());
+            myCurrentPiece.right();
+            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
         }
     }
 
@@ -366,15 +359,7 @@ public class Board implements BoardLayoutAndControls {
         return sb.toString();
     }
 
-    /**
-     * Get the board dimensions.
-     *
-     * @return Height of the board.
-     */
-    @Override
-    public Dimension getBoardDimensions() {
-        return new Dimension(myDimension);
-    }
+
 
 
 
