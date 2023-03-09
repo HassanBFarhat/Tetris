@@ -3,10 +3,11 @@ package view;
 import interfaces.BoardLayoutAndControls;
 import model.Board;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.Serial;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 /**
  * Sets up the exit panel the user can leave the game from.
@@ -31,6 +32,9 @@ public class ExitPanel extends JPanel {
     /***/
     private BoardLayoutAndControls myBoard;
 
+    /** Font used to display the message. */
+    private static final Font Text_FONT = new Font("IMPACT", Font.ITALIC, 18);
+
 
     // constructor
 
@@ -43,6 +47,24 @@ public class ExitPanel extends JPanel {
         this.setBackground(Color.YELLOW);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);
+
+        controlsBorder();
+    }
+    /**
+     * A border that wraps around the game controls panel
+     * helps it look clean and differentiate from other panels.
+     */
+    private void controlsBorder(){
+        final int thickness = 4;
+        final Border outerLine = BorderFactory.createLineBorder(Color.BLACK, thickness, true);
+
+        final TitledBorder namePanel = BorderFactory.createTitledBorder(outerLine,
+                "Game Controls ", TitledBorder.CENTER,
+                TitledBorder.BOTTOM, Text_FONT,
+                Color.BLACK);
+
+
+        setBorder(namePanel);
     }
 
 }
