@@ -2,18 +2,16 @@ package view;
 
 import static interfaces.PropertyChangeGamePieces.PROPERTY_CHANGED;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
 import model.Board;
 import interfaces.BoardLayoutAndControls;
 
@@ -58,6 +56,9 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     /**The Board.*/
     private final BoardLayoutAndControls myBoard;
 
+    /** Font used to display the message. */
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+
 
     // constructor
 
@@ -73,6 +74,8 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         this.setBackground(Color.BLUE);
         this.setPreferredSize(new Dimension(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT));
         this.setVisible(true);
+
+        nextPieceBorder();
 
     }
 
@@ -95,6 +98,23 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
                 RECTANGLE_WIDTH + 1, RECTANGLE_HEIGHT + 1));
         g2d.setPaint(Color.PINK);
         g2d.fill(myTestPiece);
+    }
+
+    /**
+     * A border that wraps around the next piece panel
+     * helps it look clean and differentiate from other panels.
+     */
+    private void nextPieceBorder(){
+        final int thickness = 4;
+        final Border outerLine = BorderFactory.createLineBorder(Color.MAGENTA, thickness, true);
+
+        final TitledBorder namePanel = BorderFactory.createTitledBorder(outerLine,
+                "Next Piece ", TitledBorder.CENTER,
+                TitledBorder.BOTTOM, TEXT_FONT,
+                Color.MAGENTA);
+
+
+        setBorder(namePanel);
     }
 
 

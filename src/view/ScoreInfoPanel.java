@@ -3,13 +3,13 @@ package view;
 import interfaces.BoardLayoutAndControls;
 import model.Board;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 /**
  * Class holds the score/high score panel of the information panel.
@@ -32,9 +32,13 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
     /***/
     private BoardLayoutAndControls myBoard;
 
+    /** Font used to display the message. */
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+
 
     /**
      * Sets up the panels for displaying score / high score.
+     * Added border to separate current score / high score.
      */
     public ScoreInfoPanel(final Board theBoard) {
         super();
@@ -52,6 +56,20 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
 
         this.add(score, BorderLayout.WEST);
         this.add(highScore, BorderLayout.EAST);
+
+        final Border outerLine = BorderFactory.createLineBorder(Color.BLACK, 4, true);
+
+        score.setBorder(BorderFactory.createTitledBorder(outerLine,
+                "Current Score ", TitledBorder.CENTER,
+                TitledBorder.BOTTOM, TEXT_FONT,
+                Color.BLACK));
+
+        highScore.setBorder(BorderFactory.createTitledBorder(outerLine,
+                "High Score ", TitledBorder.CENTER,
+                TitledBorder.BOTTOM, TEXT_FONT,
+                Color.BLACK));
+
+
     }
 
     @Override
