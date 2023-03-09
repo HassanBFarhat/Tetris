@@ -26,7 +26,7 @@ public class ExitPanel extends JPanel {
     private static final int EXIT_WIDTH = 400;
 
     /** Height constant. */
-    private static final int EXIT_HEIGHT = 210;
+    private static final int EXIT_HEIGHT = 250;
 
     /***/
     private BoardLayoutAndControls myBoard;
@@ -40,7 +40,7 @@ public class ExitPanel extends JPanel {
     public ExitPanel(final Board theBoard) {
         super();
         myBoard = theBoard;
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.YELLOW);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);
     }

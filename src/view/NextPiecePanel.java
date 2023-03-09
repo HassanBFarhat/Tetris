@@ -2,12 +2,7 @@ package view;
 
 import static interfaces.PropertyChangeGamePieces.PROPERTY_CHANGED;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
@@ -16,6 +11,8 @@ import java.io.Serial;
 import javax.swing.JPanel;
 import model.Board;
 import interfaces.BoardLayoutAndControls;
+import model.Rotation;
+import model.TetrisPiece;
 
 
 /**
@@ -45,15 +42,19 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     private static final int Y_COOR_VALUE = 50;
 
     /** The width for the rectangle. */
-    private static final int RECTANGLE_WIDTH = 50;
+    private static final int RECTANGLE_WIDTH = 37;
 
     /** The height for the rectangle. */
-    private static final int RECTANGLE_HEIGHT = 50;
+    private static final int RECTANGLE_HEIGHT = 37;
 
 
 
     /** This TEST PIECE. */
-    private final RectangularShape myTestPiece;
+    private RectangularShape myTestPiece;
+
+
+    /**NEXT PIECE*/
+    private TetrisPiece myNextPiece;
 
     /**The Board.*/
     private final BoardLayoutAndControls myBoard;
@@ -64,12 +65,12 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     /**
      * Sets up the next piece panel to display next piece to user.
      */
-    public NextPiecePanel() {
+    public NextPiecePanel(final Board theBoard) {
         super();
-        myBoard = new Board();
+        myBoard = theBoard;
         myBoard.addPropertyChangeListener(this);
-        myTestPiece = new Rectangle2D.Double(X_COOR_VALUE, Y_COOR_VALUE,
-                RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+//        myTestPiece = new Rectangle2D.Double(0, 0,
+//                RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
         this.setBackground(Color.BLUE);
         this.setPreferredSize(new Dimension(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT));
         this.setVisible(true);
@@ -90,11 +91,23 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2d.setPaint(Color.WHITE);
-        g2d.draw(new Rectangle2D.Double(X_COOR_VALUE - 1, Y_COOR_VALUE - 1,
-                RECTANGLE_WIDTH + 1, RECTANGLE_HEIGHT + 1));
-        g2d.setPaint(Color.PINK);
-        g2d.fill(myTestPiece);
+        myNextPiece = TetrisPiece.getRandomPiece();
+        int[][] nextPiecePoints = myNextPiece.getPointsByRotation(Rotation.random());
+
+        for (int i = 0; i < nextPiecePoints.length; i++) {
+            for (int j = 0; j < nextPiecePoints[i].length - 1; j++) {
+                g2d.setPaint(Color.PINK);
+                g2d.fill(new Rectangle2D.Double(nextPiecePoints[i][j] * RECTANGLE_WIDTH + 1 + (this.getWidth() / 2 - 65),
+                        nextPiecePoints[i][j + 1] * RECTANGLE_WIDTH + (this.getHeight() / 2 - 60),
+                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT));
+
+                g2d.setPaint(Color.BLACK);
+                g2d.draw(new Rectangle2D.Double(nextPiecePoints[i][j] * RECTANGLE_WIDTH + 1 + + (this.getWidth() / 2 - 65),
+                        nextPiecePoints[i][j + 1] * RECTANGLE_WIDTH - 1 + + (this.getHeight() / 2 - 60),
+                        RECTANGLE_WIDTH , RECTANGLE_HEIGHT ));
+            }
+        }
+
     }
 
 

@@ -41,7 +41,7 @@ public class InformationPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT));
 
-        final NextPiecePanel nextPiecePanel = new NextPiecePanel();
+        final NextPiecePanel nextPiecePanel = new NextPiecePanel(myBoard);
         this.add(nextPiecePanel, BorderLayout.NORTH);
 
         final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel(myBoard);

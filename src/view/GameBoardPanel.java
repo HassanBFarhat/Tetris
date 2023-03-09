@@ -17,6 +17,9 @@ import java.io.Serial;
 import javax.swing.JPanel;
 import model.Board;
 import interfaces.BoardLayoutAndControls;
+import model.MovableTetrisPiece;
+import model.Rotation;
+import model.TetrisPiece;
 
 /**
  * Sets up the Game board where player will see and play the game.
@@ -53,8 +56,11 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     /** This Board. */
     private final BoardLayoutAndControls myBoard;
 
-    /** This TEST PIECE. */
-    private final RectangularShape myTestPiece;
+//    /** This TEST PIECE. */
+//    private final RectangularShape myTestPiece;
+
+    /**MOVABLE TETRIS PIECE*/
+    private MovableTetrisPiece myMoveablePiece;
 
 
     // constructor
@@ -66,7 +72,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         super();
 
         this.myBoard = theBoard;
-        myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+//        myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
 
         myBoard.addPropertyChangeListener(this);
 
@@ -101,8 +107,23 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
             }
         }
 
-        g2d.setPaint(Color.GREEN);
-        g2d.fill(myTestPiece);
+        myMoveablePiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new model.Point(37 * 3, 0), Rotation.random());
+        int[][] nextCurrPiecePoints = myMoveablePiece.getTetrisPiece().getPointsByRotation(Rotation.random());
+
+        for (int i = 0; i < nextCurrPiecePoints.length; i++) {
+            for (int j = 0; j < nextCurrPiecePoints[i].length - 1; j++) {
+                g2d.setPaint(Color.MAGENTA);
+                g2d.fill(new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
+                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH,
+                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT));
+
+                g2d.setPaint(Color.BLACK);
+                g2d.draw(new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
+                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH - 1,
+                        RECTANGLE_WIDTH , RECTANGLE_HEIGHT ));
+            }
+        }
+
     }
 
     /**
@@ -118,9 +139,9 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
             // TODO: Need to implement what happens to update the board.
             final Point location = (Point) theEvent.getNewValue();
 
-            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
-                    location.getY() * RECTANGLE_HEIGHT,
-                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+//            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
+//                    location.getY() * RECTANGLE_HEIGHT,
+//                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
 
             repaint();
         }

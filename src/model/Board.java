@@ -182,6 +182,8 @@ public class Board implements BoardLayoutAndControls {
         myDrop = false;
         
         // TODO Publish Update!
+        myCurrentPiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new Point(0,0));
+        myNextPiece = TetrisPiece.getRandomPiece();
     }
 
     /**
