@@ -74,7 +74,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         this.myBoard = theBoard;
 //        myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
 
-        myBoard.addPropertyChangeListener(this);
+//        myBoard.addPropertyChangeListener(this);
 
 
         this.setBackground(Color.WHITE);
@@ -100,8 +100,8 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         g2d.setPaint(Color.BLACK);
         for (int row = 0; row < GAME_BOARD_ROWS; row++) {
             for (int col = 0; col < GAME_BOARD_COLS; col++) {
-                g2d.draw(new Rectangle2D.Double(col * RECTANGLE_WIDTH,
-                        row * RECTANGLE_HEIGHT + 1,
+                g2d.draw(new Rectangle2D.Double(col * RECTANGLE_WIDTH + 1,
+                        row * RECTANGLE_HEIGHT - 1,
                         RECTANGLE_WIDTH,
                         RECTANGLE_HEIGHT));
             }
@@ -137,7 +137,9 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
             // TODO: Need to implement what happens to update the board.
-            final Point location = (Point) theEvent.getNewValue();
+            final model.Point location = (model.Point) theEvent.getNewValue();
+
+            myMoveablePiece.getPosition().transform(location);
 
 //            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
 //                    location.getY() * RECTANGLE_HEIGHT,

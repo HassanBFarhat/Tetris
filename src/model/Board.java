@@ -118,7 +118,6 @@ public class Board implements BoardLayoutAndControls {
      */
     public Board() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        myPcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -229,8 +228,9 @@ public class Board implements BoardLayoutAndControls {
                 myCurrentPiece = nextMovablePiece(false);
             }
             // TODO Publish Update!
+            Point old = myCurrentPiece.getPosition();
             myCurrentPiece.down();
-            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
+            notifyObserversOfLocationChange(old);
         }
 
     }
@@ -243,8 +243,9 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.left());
 
             // TODO: not sure if this is the proper implementation.
+            Point old = myCurrentPiece.getPosition();
             myCurrentPiece.left();
-            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
+            notifyObserversOfLocationChange(old);
         }
     }
 
@@ -256,10 +257,24 @@ public class Board implements BoardLayoutAndControls {
             move(myCurrentPiece.right());
 
             // TODO: not sure if this is the proper implementation.
+            Point old = myCurrentPiece.getPosition();
             myCurrentPiece.right();
-            myPcs.firePropertyChange(PROPERTY_CHANGED, null, myCurrentPiece.getPosition());
+            notifyObserversOfLocationChange(old);
         }
     }
+
+
+
+    private void notifyObserversOfLocationChange(Point theOldPosition) {
+        myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition, myCurrentPiece.getPosition());
+    }
+
+
+
+
+
+
+
 
     /**
      * Try to rotate the movable piece in the clockwise direction.
@@ -371,7 +386,6 @@ public class Board implements BoardLayoutAndControls {
      *
      * @param theListener The PropertyChangeListener to be added
      */
-    @Override
     public void addPropertyChangeListener(final PropertyChangeListener theListener) {
         myPcs.addPropertyChangeListener(theListener);
     }
@@ -382,7 +396,6 @@ public class Board implements BoardLayoutAndControls {
      *
      * @param theListener The PropertyChangeListener to be removed
      */
-    @Override
     public void removePropertyChangeListener(final PropertyChangeListener theListener) {
         myPcs.removePropertyChangeListener(theListener);
     }

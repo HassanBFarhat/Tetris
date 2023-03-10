@@ -6,6 +6,8 @@ import model.Board;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,7 +21,7 @@ import javax.swing.JOptionPane;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class MenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar implements PropertyChangeListener {
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -50,19 +52,21 @@ public class MenuBar extends JMenuBar {
 
     private JMenu buildFileMenu() {
         final JMenu fileMenu = new JMenu("File");
-        fileMenu.add(buildMenuItem("New Game"));
+        fileMenu.add(buildMenuItem("New Game")).addActionListener(e -> myBoard.newGame());
         fileMenu.addSeparator();
-        fileMenu.add(buildMenuItem("Exit"));
+        fileMenu.add(buildMenuItem("Exit")).addActionListener(e -> System.exit(0));
         fileMenu.addSeparator();
-        fileMenu.add(buildMenuItem("About"));
+        fileMenu.add(buildMenuItem("About")).addActionListener(e -> JOptionPane.showMessageDialog(this, "THIS IS A TETRIS GAME ATTEMPT."));
         return fileMenu;
     }
 
     private JMenuItem buildMenuItem(final String theText) {
         final JMenuItem menuItem = new JMenuItem(theText);
-        menuItem.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "This will do something soon."));
         return menuItem;
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

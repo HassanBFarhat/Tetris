@@ -149,6 +149,8 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
             // TODO: Need to implement what happens to update the board.
             final Point location = (Point) theEvent.getNewValue();
 
+
+
 //            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
 //                    location.getY() * RECTANGLE_HEIGHT,
 //                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);

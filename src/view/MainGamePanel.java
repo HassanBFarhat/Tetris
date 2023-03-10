@@ -69,12 +69,15 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
     /** Sets up the main panels within the GUI. */
     private void setUpGUI(final Board theBoard) {
         final MenuBar menuBar = new MenuBar(theBoard);
+        myBoard.addPropertyChangeListener(menuBar);
         this.add(menuBar, BorderLayout.NORTH);
 
         final InformationPanel infoPanel = new InformationPanel(theBoard);
+        myBoard.addPropertyChangeListener(infoPanel);
         this.add(infoPanel, BorderLayout.EAST);
 
         final GameBoardPanel gameBoardPanel = new GameBoardPanel(theBoard);
+        myBoard.addPropertyChangeListener(gameBoardPanel);
         this.add(gameBoardPanel, BorderLayout.CENTER);
     }
 

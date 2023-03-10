@@ -36,6 +36,7 @@ public final class Application {
         final JFrame gameFrame = new JFrame("Tetris");
         final Board board = new Board();
         final MainGamePanel mainPanel = new MainGamePanel(board);
+        board.addPropertyChangeListener(mainPanel);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         gameFrame.setResizable(false);

@@ -4,6 +4,8 @@ import interfaces.BoardLayoutAndControls;
 import model.Board;
 
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,7 +17,7 @@ import javax.swing.border.TitledBorder;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class ExitPanel extends JPanel {
+public class ExitPanel extends JPanel implements PropertyChangeListener {
 
     // instance fields
 
@@ -67,4 +69,8 @@ public class ExitPanel extends JPanel {
         setBorder(namePanel);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }

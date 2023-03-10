@@ -5,6 +5,8 @@ import model.Board;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
 
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class InformationPanel extends JPanel {
+public class InformationPanel extends JPanel implements PropertyChangeListener {
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -42,14 +44,22 @@ public class InformationPanel extends JPanel {
         this.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT));
 
         final NextPiecePanel nextPiecePanel = new NextPiecePanel(myBoard);
+        myBoard.addPropertyChangeListener(nextPiecePanel);
         this.add(nextPiecePanel, BorderLayout.NORTH);
 
         final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel(myBoard);
+        myBoard.addPropertyChangeListener(scoreInfoPanel);
         this.add(scoreInfoPanel, BorderLayout.CENTER);
 
         final ExitPanel exitPanel = new ExitPanel(myBoard);
+        myBoard.addPropertyChangeListener(exitPanel);
         this.add(exitPanel, BorderLayout.SOUTH);
 
         this.setVisible(true);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
