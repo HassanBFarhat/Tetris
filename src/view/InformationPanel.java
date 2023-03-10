@@ -60,6 +60,6 @@ public class InformationPanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        System.out.println("TEST 3");
     }
 }

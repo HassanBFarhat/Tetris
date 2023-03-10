@@ -45,9 +45,11 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
         super();
         this.setLayout(new BorderLayout());
         this.myBoard = theBoard;
+        System.out.println("Before adding");
         this.myBoard.addPropertyChangeListener(this);
+        System.out.println("After adding to PCS");
         this.myTimer = new Timer(TIME_DELAY, this::handleTimer);
-        setUpKeyListener();
+//        setUpKeyListener();
         setUpGUI(myBoard);
     }
 
@@ -59,12 +61,12 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
         myBoard.step();
     }
 
-    /** Sets up the focusable and adds key listener to innerclass. */
-    private void setUpKeyListener() {
-        this.addKeyListener(new ControlKeyListener());
-        this.setFocusable(true);
-        this.requestFocus();
-    }
+//    /** Sets up the focusable and adds key listener to innerclass. */
+//    private void setUpKeyListener() {
+//        this.addKeyListener(new ControlKeyListener());
+//        this.setFocusable(true);
+//        this.requestFocus();
+//    }
 
     /** Sets up the main panels within the GUI. */
     private void setUpGUI(final Board theBoard) {
@@ -83,46 +85,47 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("TEST 4");
         if (Board.PROPERTY_CHANGED.equals(evt.getPropertyName())) {
             repaint();
         }
         repaint();
     }
 
-    // inner class
-
-    /**
-     * Inner class that helps to determine the key event and what to do
-     * when a certain key is pressed.
-     *
-     * @author Hassan Farhat
-     * @version Winter 2023
-     */
-    final class ControlKeyListener extends KeyAdapter {
-
-        @Override
-        public void keyPressed(final KeyEvent theEvent) {
-            if (theEvent.getKeyCode() == KeyEvent.VK_S
-                    || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                myBoard.down();
-                System.out.println("down");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_A
-                    || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                myBoard.left();
-                System.out.println("left");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_D
-                    || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                myBoard.right();
-                System.out.println("right");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_W
-                    || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                myBoard.rotateCW();
-                System.out.println("rotateCW");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-                myBoard.drop();
-                System.out.println("drop");
-            }
-        }
-    }
+//    // inner class
+//
+//    /**
+//     * Inner class that helps to determine the key event and what to do
+//     * when a certain key is pressed.
+//     *
+//     * @author Hassan Farhat
+//     * @version Winter 2023
+//     */
+//    final class ControlKeyListener extends KeyAdapter {
+//
+//        @Override
+//        public void keyPressed(final KeyEvent theEvent) {
+//            if (theEvent.getKeyCode() == KeyEvent.VK_S
+//                    || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+//                myBoard.down();
+//                System.out.println("down");
+//            } else if (theEvent.getKeyCode() == KeyEvent.VK_A
+//                    || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+//                myBoard.left();
+//                System.out.println("left");
+//            } else if (theEvent.getKeyCode() == KeyEvent.VK_D
+//                    || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+//                myBoard.right();
+//                System.out.println("right");
+//            } else if (theEvent.getKeyCode() == KeyEvent.VK_W
+//                    || theEvent.getKeyCode() == KeyEvent.VK_UP) {
+//                myBoard.rotateCW();
+//                System.out.println("rotateCW");
+//            } else if (theEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+//                myBoard.drop();
+//                System.out.println("drop");
+//            }
+//        }
+//    }
 
 }

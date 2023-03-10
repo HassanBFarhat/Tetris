@@ -74,6 +74,8 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("TEST 7");
+
         if (Board.PROPERTY_CHANGED.equals(evt.getPropertyName())) {
             repaint();
         }

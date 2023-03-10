@@ -67,6 +67,6 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        System.out.println("TEST 5");
     }
 }
