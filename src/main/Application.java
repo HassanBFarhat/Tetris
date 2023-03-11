@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.JFrame;
-
 import model.Board;
 import view.MainGamePanel;
 
@@ -20,10 +19,10 @@ public final class Application {
     /** Constant value for frame height. */
     private static final int FRAME_HEIGHT = 810;
 
-    /** Width constant. */
+    /** Play area Width constant. */
     private static final int GAME_BOARD_WIDTH = 100;
 
-    /** Height constant. */
+    /** Play area Height constant. */
     private static final int GAME_BOARD_HEIGHT = 400;
 
 
@@ -42,6 +41,7 @@ public final class Application {
         final Board board = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
         final MainGamePanel mainPanel = new MainGamePanel(board);
         board.addPropertyChangeListener(mainPanel);
+
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         gameFrame.setResizable(false);

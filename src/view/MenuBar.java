@@ -2,8 +2,6 @@ package view;
 
 
 import interfaces.BoardLayoutAndControls;
-import model.Board;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
@@ -13,6 +11,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import model.Board;
+
 
 /**
  * MenuBar class creates the menubar for the game panel and
@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
  * @version Winter 2023
  */
 public class MenuBar extends JMenuBar implements PropertyChangeListener {
+
+    // static fields
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -33,16 +35,20 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
     /** Height constant. */
     private static final int MENU_BAR_HEIGHT = 30;
 
+
+    // instance field
+
     /***/
-    private BoardLayoutAndControls myBoard;
+    private final BoardLayoutAndControls myBoard;
 
 
     /**
      * Creates the menubar and menu buttons to be used in the game panel.
      */
-    public MenuBar(final Board theBoard) {
+    public MenuBar() {
         super();
-        myBoard = theBoard;
+        this.myBoard = new Board(MENU_BAR_WIDTH, MENU_BAR_HEIGHT);
+        this.myBoard.addPropertyChangeListener(this);
         this.add(buildFileMenu());
         this.setPreferredSize(new Dimension(MENU_BAR_WIDTH, MENU_BAR_HEIGHT));
         this.setBackground(Color.CYAN);
@@ -50,23 +56,26 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
     }
 
 
+    // private methods
+
     private JMenu buildFileMenu() {
         final JMenu fileMenu = new JMenu("File");
         fileMenu.add(buildMenuItem("New Game")).addActionListener(e -> myBoard.newGame());
         fileMenu.addSeparator();
         fileMenu.add(buildMenuItem("Exit")).addActionListener(e -> System.exit(0));
         fileMenu.addSeparator();
-        fileMenu.add(buildMenuItem("About")).addActionListener(e -> JOptionPane.showMessageDialog(this, "THIS IS A TETRIS GAME ATTEMPT."));
+        fileMenu.add(buildMenuItem("About")).addActionListener(
+                e -> JOptionPane.showMessageDialog(this, "THIS IS A TETRIS GAME ATTEMPT."));
         return fileMenu;
     }
 
     private JMenuItem buildMenuItem(final String theText) {
-        final JMenuItem menuItem = new JMenuItem(theText);
-        return menuItem;
+        return new JMenuItem(theText);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent theEvent) {
         System.out.println("TEST 5");
     }
+
 }

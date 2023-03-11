@@ -1,7 +1,8 @@
 package view;
 
-import static interfaces.PropertyChangeGamePieces.PROPERTY_CHANGED;
+import static interfaces.BoardLayoutAndControls.PROPERTY_CHANGED;
 
+import interfaces.BoardLayoutAndControls;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,10 +15,12 @@ import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.*;
+import javax.swing.JPanel;
+import model.Board;
+import model.MovableTetrisPiece;
+import model.Rotation;
+import model.TetrisPiece;
 
-import model.*;
-import interfaces.BoardLayoutAndControls;
 
 /**
  * Sets up the Game board where player will see and play the game.
@@ -27,11 +30,17 @@ import interfaces.BoardLayoutAndControls;
  */
 public class GameBoardPanel extends JPanel implements PropertyChangeListener {
 
-    // instance fields
+    // static fields
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
     private static final long serialVersionUID = 7129745753499709311L;
+
+    /** Stores the number 3. */
+    private static final int THREE = 3;
+
+
+    // instance fields
 
     /** Width constant. */
     private static final int GAME_BOARD_WIDTH = 100;
@@ -51,19 +60,17 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     /** The height for the rectangle. */
     private static final int RECTANGLE_HEIGHT = 37;
 
-    /** This Board. */
+
+    /** This is reference to the Board. */
     private final BoardLayoutAndControls myBoard;
 
-//    /** This TEST PIECE. */
-//    private final RectangularShape myTestPiece;
-
-    /**MOVABLE TETRIS PIECE*/
+    /** Piece to be drawn on Board. */
     private MovableTetrisPiece myMoveablePiece;
 
-    /***/
+    /** Stores the shape of the square to be filled on the board. */
     private RectangularShape myShape;
 
-    /***/
+    /** Stores the outline of myShape to be drawn on the board. */
     private RectangularShape myShapeOutline;
 
 
@@ -72,20 +79,16 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     /**
      * Constructor sets up the panel for the game board.
      */
-    public GameBoardPanel(final Board theBoard) {
+    public GameBoardPanel() {
         super();
-
-        this.myBoard = theBoard;
-//        myTestPiece = new Ellipse2D.Double(0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
-//        myBoard.addPropertyChangeListener(this);
-
-        setUpKeyListener();
-
+        this.myBoard = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
+        this.myBoard.addPropertyChangeListener(this);
+        this.setUpKeyListener();
         this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT));
         this.setVisible(true);
     }
+
 
     // public methods
 
@@ -102,6 +105,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Draws out the grid of the game board.
         g2d.setPaint(Color.BLACK);
         for (int row = 0; row < GAME_BOARD_ROWS; row++) {
             for (int col = 0; col < GAME_BOARD_COLS; col++) {
@@ -112,33 +116,31 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
             }
         }
 
-        myMoveablePiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new model.Point(37 * 3, 0), Rotation.random());
-        int[][] nextCurrPiecePoints = myMoveablePiece.getTetrisPiece().getPointsByRotation(Rotation.random());
+        // Stores piece to be played on the board.
+        myMoveablePiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(),
+                new model.Point(RECTANGLE_WIDTH * THREE, 0),
+                Rotation.random());
+        // Obtains the points of the blocks at given random rotation.
+        final int[][] nextCurrPiecePoints =
+                myMoveablePiece.getTetrisPiece().getPointsByRotation(Rotation.random());
 
-
-
-        for (int i = 0; i < nextCurrPiecePoints.length; i++) {
-            for (int j = 0; j < nextCurrPiecePoints[i].length - 1; j++) {
+        // Draws out the shape and shapes outline for the given piece to be played.
+        for (final int[] nextCurrPiecePoint : nextCurrPiecePoints) {
+            for (int j = 0; j < nextCurrPiecePoint.length - 1; j++) {
                 g2d.setPaint(Color.MAGENTA);
-//                g2d.fill(new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
-//                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH,
-//                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT));
-                myShape = new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
-                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH,
+                myShape = new Rectangle2D.Double(nextCurrPiecePoint[j] * RECTANGLE_WIDTH + 1,
+                        nextCurrPiecePoint[j + 1] * RECTANGLE_WIDTH,
                         RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
                 g2d.fill(myShape);
 
                 g2d.setPaint(Color.BLACK);
-//                g2d.draw(new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
-//                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH - 1,
-//                        RECTANGLE_WIDTH , RECTANGLE_HEIGHT ));
-                myShapeOutline = new Rectangle2D.Double(nextCurrPiecePoints[i][j] * RECTANGLE_WIDTH + 1,
-                        nextCurrPiecePoints[i][j + 1] * RECTANGLE_WIDTH - 1,
-                        RECTANGLE_WIDTH , RECTANGLE_HEIGHT );
+                myShapeOutline = new Rectangle2D.Double(
+                        nextCurrPiecePoint[j] * RECTANGLE_WIDTH + 1,
+                        nextCurrPiecePoint[j + 1] * RECTANGLE_WIDTH - 1,
+                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
                 g2d.draw(myShapeOutline);
             }
         }
-
     }
 
     /**
@@ -151,25 +153,17 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
-            // TODO: Need to implement what happens to update the board.
             System.out.println("TEST 2");
-            System.out.println(myMoveablePiece.getPosition().x() + ", " + myMoveablePiece.getPosition().y());
             final model.Point location = (model.Point) theEvent.getNewValue();
-            System.out.println(((Point) theEvent.getNewValue()).x() + ", " + ((Point) theEvent.getNewValue()).y());
-
-            myShape.setFrame(location.x() * RECTANGLE_WIDTH, location.y() * RECTANGLE_HEIGHT, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-            myShapeOutline.setFrame(location.x() * RECTANGLE_WIDTH, location.y() * RECTANGLE_HEIGHT, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-//            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
-//                    location.getY() * RECTANGLE_HEIGHT,
-//                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
+            myShape.setFrame(location.x() * RECTANGLE_WIDTH,
+                    location.y() * RECTANGLE_HEIGHT,
+                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+            myShapeOutline.setFrame(location.x() * RECTANGLE_WIDTH,
+                    location.y() * RECTANGLE_HEIGHT,
+                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
             repaint();
         }
     }
-
-
-
-
 
     /** Sets up the focusable and adds key listener to innerclass. */
     private void setUpKeyListener() {
@@ -177,7 +171,6 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         this.setFocusable(true);
         this.requestFocusInWindow();
     }
-
 
 
     // inner class
@@ -189,7 +182,10 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
      * @author Hassan Farhat
      * @version Winter 2023
      */
-    final class ControlKeyListener extends KeyAdapter {
+    protected final class ControlKeyListener extends KeyAdapter {
+
+        /** Private constructor to satisfy PMD. */
+        private ControlKeyListener() { super(); }
 
         @Override
         public void keyPressed(final KeyEvent theEvent) {

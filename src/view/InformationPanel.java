@@ -1,15 +1,13 @@
 package view;
 
 import interfaces.BoardLayoutAndControls;
-import model.Board;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
-
+import model.Board;
 
 /**
  * Sets up the information side of the game GUI.
@@ -18,6 +16,8 @@ import javax.swing.JPanel;
  * @version Winter 2023
  */
 public class InformationPanel extends JPanel implements PropertyChangeListener {
+
+    // static fields
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -29,37 +29,46 @@ public class InformationPanel extends JPanel implements PropertyChangeListener {
     /** Height constant. */
     private static final int INFO_PANEL_HEIGHT = 100;
 
-    /***/
-    private Board myBoard;
+
+    // instance field
+
+    /** Stores reference to the Board. */
+    private final BoardLayoutAndControls myBoard;
 
 
+    // constructor
 
     /**
      * Creates the panel where all info for player will be visible.
      */
-    public InformationPanel(final Board theBoard) {
+    public InformationPanel() {
         super();
-        myBoard = theBoard;
+        this.myBoard = new Board(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT);
+        this.myBoard.addPropertyChangeListener(this);
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT));
-
-        final NextPiecePanel nextPiecePanel = new NextPiecePanel(myBoard);
-        myBoard.addPropertyChangeListener(nextPiecePanel);
-        this.add(nextPiecePanel, BorderLayout.NORTH);
-
-        final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel(myBoard);
-        myBoard.addPropertyChangeListener(scoreInfoPanel);
-        this.add(scoreInfoPanel, BorderLayout.CENTER);
-
-        final ExitPanel exitPanel = new ExitPanel(myBoard);
-        myBoard.addPropertyChangeListener(exitPanel);
-        this.add(exitPanel, BorderLayout.SOUTH);
-
+        this.setUpInfoPanel();
         this.setVisible(true);
     }
 
+    /** Sets up all the panels required for the info panel. */
+    private void setUpInfoPanel() {
+        final NextPiecePanel nextPiecePanel = new NextPiecePanel();
+        this.myBoard.addPropertyChangeListener(nextPiecePanel);
+        this.add(nextPiecePanel, BorderLayout.NORTH);
+
+        final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel();
+        this.myBoard.addPropertyChangeListener(scoreInfoPanel);
+        this.add(scoreInfoPanel, BorderLayout.CENTER);
+
+        final DisplayControlsPanel displayControlsPanel = new DisplayControlsPanel();
+        this.myBoard.addPropertyChangeListener(displayControlsPanel);
+        this.add(displayControlsPanel, BorderLayout.SOUTH);
+    }
+
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent theEvent) {
         System.out.println("TEST 3");
     }
+
 }

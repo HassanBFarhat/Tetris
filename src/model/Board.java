@@ -3,17 +3,14 @@
  * 
  * An implementation of the classic game "Tetris".
  */
-
 package model;
 
-import java.awt.*;
+import interfaces.BoardLayoutAndControls;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import interfaces.BoardLayoutAndControls;
 import model.wallkicks.WallKick;
 
 /**
@@ -105,9 +102,7 @@ public class Board implements BoardLayoutAndControls {
      * The property change support responsible for dispatching change event
      * to observables.
      */
-    private PropertyChangeSupport myPcs;
-
-
+    private final PropertyChangeSupport myPcs;
 
 
     // Constructors
@@ -169,7 +164,6 @@ public class Board implements BoardLayoutAndControls {
      * and before each new game.
      */
     public void newGame() {
-        
         mySequenceIndex = 0;
         myFrozenBlocks.clear();
         for (int h = 0; h < myHeight; h++) {
@@ -179,9 +173,8 @@ public class Board implements BoardLayoutAndControls {
         myGameOver = false;
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
-        
         // TODO Publish Update!
-        myCurrentPiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new Point(0,0));
+        myCurrentPiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new Point(0, 0));
         myNextPiece = TetrisPiece.getRandomPiece();
     }
 
@@ -228,11 +221,10 @@ public class Board implements BoardLayoutAndControls {
                 myCurrentPiece = nextMovablePiece(false);
             }
             // TODO Publish Update!
-            Point old = myCurrentPiece.getPosition();
+            final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.down();
             notifyObserversOfLocationChange(old);
         }
-
     }
 
     /**
@@ -241,9 +233,8 @@ public class Board implements BoardLayoutAndControls {
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
-
             // TODO: not sure if this is the proper implementation.
-            Point old = myCurrentPiece.getPosition();
+            final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.left();
             notifyObserversOfLocationChange(old);
         }
@@ -255,26 +246,23 @@ public class Board implements BoardLayoutAndControls {
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
-
             // TODO: not sure if this is the proper implementation.
-            Point old = myCurrentPiece.getPosition();
+            final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.right();
             notifyObserversOfLocationChange(old);
         }
     }
 
-
-
-    private void notifyObserversOfLocationChange(Point theOldPosition) {
-        myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition, myCurrentPiece.getPosition());
+    /**
+     * Tells the Property Change Support to fire a property change once piece
+     * position is altered.
+     *
+     * @param theOldPosition takes the old point of piece on board.
+     */
+    private void notifyObserversOfLocationChange(final Point theOldPosition) {
+        myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition,
+                myCurrentPiece.getPosition());
     }
-
-
-
-
-
-
-
 
     /**
      * Try to rotate the movable piece in the clockwise direction.
@@ -335,9 +323,9 @@ public class Board implements BoardLayoutAndControls {
             down();  // move down one more time to freeze in place
         }
     }
-    
-
-
+    /**
+     * Displays a string representation of the Game Board.
+     */
     @Override
     public String toString() {
         final List<Block[]> board = getBoard();
@@ -376,16 +364,13 @@ public class Board implements BoardLayoutAndControls {
         return sb.toString();
     }
 
-
-
-
-
     /**
      * Adds a property change listener to the list of listeners in
      * Property Change Support.
      *
      * @param theListener The PropertyChangeListener to be added
      */
+    @Override
     public void addPropertyChangeListener(final PropertyChangeListener theListener) {
         myPcs.addPropertyChangeListener(theListener);
     }
@@ -396,6 +381,7 @@ public class Board implements BoardLayoutAndControls {
      *
      * @param theListener The PropertyChangeListener to be removed
      */
+    @Override
     public void removePropertyChangeListener(final PropertyChangeListener theListener) {
         myPcs.removePropertyChangeListener(theListener);
     }
@@ -417,6 +403,7 @@ public class Board implements BoardLayoutAndControls {
             result = true;
             if (!myDrop) {
                 // TODO Publish Update!
+
             }
         }
         return result;
@@ -653,5 +640,4 @@ public class Board implements BoardLayoutAndControls {
         
     } // end inner class BoardData
 
-    
 }

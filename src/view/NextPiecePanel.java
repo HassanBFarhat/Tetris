@@ -1,19 +1,24 @@
 package view;
 
-import static interfaces.PropertyChangeGamePieces.PROPERTY_CHANGED;
+import static interfaces.BoardLayoutAndControls.PROPERTY_CHANGED;
 
-import java.awt.*;
+import interfaces.BoardLayoutAndControls;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
 import model.Board;
-import interfaces.BoardLayoutAndControls;
 import model.Rotation;
 import model.TetrisPiece;
 
@@ -26,7 +31,7 @@ import model.TetrisPiece;
  */
 public class NextPiecePanel extends JPanel implements PropertyChangeListener {
 
-    //instance fields
+    // static fields
 
     /**  A generated serial version UID for object Serialization. */
     @Serial
@@ -38,32 +43,42 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     /** Height constant. */
     private static final int NEXT_PIECE_HEIGHT = 205;
 
-    /** TestPiece X coordinate value. */
-    private static final int X_COOR_VALUE = 50;
-
-    /** TestPiece Y coordinate value. */
-    private static final int Y_COOR_VALUE = 50;
-
     /** The width for the rectangle. */
     private static final int RECTANGLE_WIDTH = 37;
 
     /** The height for the rectangle. */
     private static final int RECTANGLE_HEIGHT = 37;
 
+    /** Stores the number 2. */
+    private static final int TWO = 2;
 
+    /** Stores the number 60. */
+    private static final int SIXTY = 60;
 
-    /** This TEST PIECE. */
-    private RectangularShape myTestPiece;
+    /** Stores the number 65. */
+    private static final int SIXTY_FIVE = 65;
 
-
-    /**NEXT PIECE*/
-    private TetrisPiece myNextPiece;
-
-    /**The Board.*/
-    private final BoardLayoutAndControls myBoard;
 
     /** Font used to display the message. */
     private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+
+    /** Used to hold integer value for thickness of border. */
+    private static final int THICKNESS = 4;
+
+
+    // instance fields
+
+    /** Piece to be drawn in next piece display panel.*/
+    private TetrisPiece myNextPiece;
+
+    /** Stores the shape of the square to be filled on the display panel. */
+    private RectangularShape myShape;
+
+    /** Stores the outline of myShape to be drawn on the display panel. */
+    private RectangularShape myShapeOutline;
+
+    /** Stores reference to the board. */
+    private final BoardLayoutAndControls myBoard;
 
 
     // constructor
@@ -71,20 +86,19 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     /**
      * Sets up the next piece panel to display next piece to user.
      */
-    public NextPiecePanel(final Board theBoard) {
+    public NextPiecePanel() {
         super();
-        myBoard = theBoard;
-        myBoard.addPropertyChangeListener(this);
-//        myTestPiece = new Rectangle2D.Double(0, 0,
-//                RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+        this.myBoard = new Board(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT);
+        this.myBoard.addPropertyChangeListener(this);
         this.setBackground(Color.BLUE);
         this.setPreferredSize(new Dimension(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT));
         this.setVisible(true);
 
         nextPieceBorder();
-
     }
 
+
+    // methods
 
     /**
      * Helps to draw the next game piece (right now just TestPiece)
@@ -99,20 +113,31 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Stores piece that will be displayed in panel.
         myNextPiece = TetrisPiece.getRandomPiece();
-        int[][] nextPiecePoints = myNextPiece.getPointsByRotation(Rotation.random());
+        // Obtains the points of the blocks at given random rotation.
+        final int[][] nextPiecePoints = myNextPiece.getPointsByRotation(Rotation.random());
 
-        for (int i = 0; i < nextPiecePoints.length; i++) {
-            for (int j = 0; j < nextPiecePoints[i].length - 1; j++) {
+        // Draws out the shape and shapes outline for the next piece to be played.
+        for (final int[] nextPiecePoint : nextPiecePoints) {
+            for (int j = 0; j < nextPiecePoint.length - 1; j++) {
                 g2d.setPaint(Color.PINK);
-                g2d.fill(new Rectangle2D.Double(nextPiecePoints[i][j] * RECTANGLE_WIDTH + 1 + (this.getWidth() / 2 - 65),
-                        nextPiecePoints[i][j + 1] * RECTANGLE_WIDTH + (this.getHeight() / 2 - 60),
-                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT));
+                myShape = new Rectangle2D.Double(
+                        nextPiecePoint[j] * RECTANGLE_WIDTH
+                                + ((float) this.getWidth() / TWO - SIXTY_FIVE) + 1,
+                        nextPiecePoint[j + 1] * RECTANGLE_WIDTH
+                                + ((float) this.getHeight() / TWO - SIXTY),
+                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+                g2d.fill(myShape);
 
                 g2d.setPaint(Color.BLACK);
-                g2d.draw(new Rectangle2D.Double(nextPiecePoints[i][j] * RECTANGLE_WIDTH + 1 + + (this.getWidth() / 2 - 65),
-                        nextPiecePoints[i][j + 1] * RECTANGLE_WIDTH - 1 + + (this.getHeight() / 2 - 60),
-                        RECTANGLE_WIDTH , RECTANGLE_HEIGHT ));
+                myShapeOutline = new Rectangle2D.Double(
+                        nextPiecePoint[j] * RECTANGLE_WIDTH
+                                + ((float) this.getWidth() / TWO - SIXTY_FIVE) + 1,
+                        nextPiecePoint[j + 1] * RECTANGLE_WIDTH
+                                - 1 + ((float) this.getHeight() / TWO - SIXTY),
+                        RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+                g2d.draw(myShapeOutline);
             }
         }
 
@@ -122,9 +147,9 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
      * A border that wraps around the next piece panel
      * helps it look clean and differentiate from other panels.
      */
-    private void nextPieceBorder(){
-        final int thickness = 4;
-        final Border outerLine = BorderFactory.createLineBorder(Color.MAGENTA, thickness, true);
+    private void nextPieceBorder() {
+        final Border outerLine = BorderFactory.createLineBorder(Color.MAGENTA,
+                THICKNESS, true);
 
         final TitledBorder namePanel = BorderFactory.createTitledBorder(outerLine,
                 "Next Piece ", TitledBorder.CENTER,
@@ -147,15 +172,6 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvent) {
         System.out.println("TEST 6");
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
-            // TODO: Need to implement what happens to update the board.
-            final Point location = (Point) theEvent.getNewValue();
-
-
-
-//            myTestPiece.setFrame(location.getX() * RECTANGLE_WIDTH,
-//                    location.getY() * RECTANGLE_HEIGHT,
-//                    RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
-
             repaint();
         }
     }

@@ -1,15 +1,17 @@
 package view;
 
 import interfaces.BoardLayoutAndControls;
-import model.Board;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import model.Board;
 
 /**
  * Sets up the exit panel the user can leave the game from.
@@ -17,7 +19,16 @@ import javax.swing.border.TitledBorder;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class ExitPanel extends JPanel implements PropertyChangeListener {
+public class DisplayControlsPanel extends JPanel implements PropertyChangeListener {
+
+    // static fields
+
+    /** Font used to display the message. */
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+
+    /** Used to hold integer value for thickness of border. */
+    private static final int THICKNESS = 4;
+
 
     // instance fields
 
@@ -32,10 +43,7 @@ public class ExitPanel extends JPanel implements PropertyChangeListener {
     private static final int EXIT_HEIGHT = 250;
 
     /***/
-    private BoardLayoutAndControls myBoard;
-
-    /** Font used to display the message. */
-    private static final Font Text_FONT = new Font("IMPACT", Font.ITALIC, 18);
+    private final BoardLayoutAndControls myBoard;
 
 
     // constructor
@@ -43,26 +51,27 @@ public class ExitPanel extends JPanel implements PropertyChangeListener {
     /**
      * sets up panel where exit button will be.
      */
-    public ExitPanel(final Board theBoard) {
+    public DisplayControlsPanel() {
         super();
-        myBoard = theBoard;
+        this.myBoard = new Board(EXIT_WIDTH, EXIT_HEIGHT);
+        this.myBoard.addPropertyChangeListener(this);
         this.setBackground(Color.YELLOW);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);
 
         controlsBorder();
     }
+
     /**
      * A border that wraps around the game controls panel
      * helps it look clean and differentiate from other panels.
      */
-    private void controlsBorder(){
-        final int thickness = 4;
-        final Border outerLine = BorderFactory.createLineBorder(Color.BLACK, thickness, true);
+    private void controlsBorder() {
+        final Border outerLine = BorderFactory.createLineBorder(Color.BLACK, THICKNESS, true);
 
         final TitledBorder namePanel = BorderFactory.createTitledBorder(outerLine,
                 "Game Controls ", TitledBorder.CENTER,
-                TitledBorder.BOTTOM, Text_FONT,
+                TitledBorder.BOTTOM, TEXT_FONT,
                 Color.BLACK);
 
 
@@ -70,7 +79,7 @@ public class ExitPanel extends JPanel implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(final PropertyChangeEvent theEvent) {
         System.out.println("TEST 1");
     }
 }
