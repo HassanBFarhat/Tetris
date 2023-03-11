@@ -14,6 +14,7 @@ import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -90,7 +91,7 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         super();
         this.myBoard = new Board(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT);
         this.myBoard.addPropertyChangeListener(this);
-        this.setBackground(Color.BLUE);
+        this.setBackground(Color.GRAY);
         this.setPreferredSize(new Dimension(NEXT_PIECE_WIDTH, NEXT_PIECE_HEIGHT));
         this.setVisible(true);
 
@@ -117,11 +118,12 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
         myNextPiece = TetrisPiece.getRandomPiece();
         // Obtains the points of the blocks at given random rotation.
         final int[][] nextPiecePoints = myNextPiece.getPointsByRotation(Rotation.random());
+        final Color randomlyPickedColor = getRandomColor();
 
         // Draws out the shape and shapes outline for the next piece to be played.
         for (final int[] nextPiecePoint : nextPiecePoints) {
             for (int j = 0; j < nextPiecePoint.length - 1; j++) {
-                g2d.setPaint(Color.PINK);
+                g2d.setPaint(randomlyPickedColor);
                 myShape = new Rectangle2D.Double(
                         nextPiecePoint[j] * RECTANGLE_WIDTH
                                 + ((float) this.getWidth() / TWO - SIXTY_FIVE) + 1,
@@ -143,18 +145,31 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
 
     }
 
+    /** Picks Random colors from the given standard color of Tetris pieces.
+     *
+     * @return Random color
+     */
+    private Color getRandomColor() {
+        final Color[] colors = {Color.CYAN, Color.YELLOW, new Color(128, 0, 128),
+            Color.GREEN, Color.BLUE, Color.RED, Color.ORANGE};
+
+        final Random random = new Random();
+        final int i = random.nextInt(colors.length);
+        return colors[i];
+    }
+
     /**
      * A border that wraps around the next piece panel
      * helps it look clean and differentiate from other panels.
      */
     private void nextPieceBorder() {
-        final Border outerLine = BorderFactory.createLineBorder(Color.MAGENTA,
+        final Border outerLine = BorderFactory.createLineBorder(Color.BLACK,
                 THICKNESS, true);
 
         final TitledBorder namePanel = BorderFactory.createTitledBorder(outerLine,
                 "Next Piece ", TitledBorder.CENTER,
                 TitledBorder.BOTTOM, TEXT_FONT,
-                Color.MAGENTA);
+                Color.BLACK);
 
 
         setBorder(namePanel);

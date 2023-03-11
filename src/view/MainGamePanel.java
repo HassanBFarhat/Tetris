@@ -3,9 +3,12 @@ package view;
 import interfaces.BoardLayoutAndControls;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.Board;
@@ -49,6 +52,7 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
         this.myBoard = theBoard;
         this.myBoard.addPropertyChangeListener(this);
         this.myTimer = new Timer(TIME_DELAY, this::handleTimer);
+        this.setUpKeyListener();
         setUpGUI();
     }
 
@@ -83,6 +87,71 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
             repaint();
         }
         repaint();
+    }
+
+    /** Stops the timer on the game board. */
+    public void stopTimer() {
+        System.out.println("Stopped!!!");
+        myTimer.stop();
+    }
+
+    /** Starts the timer on the game board. */
+    public void startsTimer() {
+        myTimer.start();
+    }
+
+    /** Sets up the focusable and adds key listener to innerclass. */
+    private void setUpKeyListener() {
+        this.addKeyListener(new ControlKeyListener());
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+    }
+
+
+    // inner class
+
+    /**
+     * Inner class that helps to determine the key event and what to do
+     * when a certain key is pressed.
+     *
+     * @author Hassan Farhat
+     * @version Winter 2023
+     */
+    protected final class ControlKeyListener extends KeyAdapter {
+
+
+        /** Private constructor to satisfy PMD. */
+        private ControlKeyListener() {
+            super(); }
+
+        @Override
+        public void keyPressed(final KeyEvent theEvent) {
+            if (theEvent.getKeyCode() == KeyEvent.VK_S
+                    || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+                myBoard.down();
+                System.out.println("down");
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_A
+                    || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+                myBoard.left();
+                System.out.println("left");
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_D
+                    || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+                myBoard.right();
+                System.out.println("right");
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_W
+                    || theEvent.getKeyCode() == KeyEvent.VK_UP) {
+                myBoard.rotateCW();
+                System.out.println("rotateCW");
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+                myBoard.drop();
+                System.out.println("drop");
+            } else if (theEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                myTimer.stop();
+                JOptionPane.showMessageDialog(MainGamePanel.this,
+                        "YOUR GAME HAS BEEN PAUSED. Press OK or the Spacebar to resume");
+                myTimer.start();
+            }
+        }
     }
 
 }

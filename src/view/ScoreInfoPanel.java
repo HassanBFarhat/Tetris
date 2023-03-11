@@ -62,9 +62,9 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
     private void setUpScorePanels() {
         final JPanel score = new JPanel();
         final JPanel highScore = new JPanel();
-        score.setBackground(Color.GREEN);
+        score.setBackground(Color.GRAY);
         score.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
-        highScore.setBackground(Color.CYAN);
+        highScore.setBackground(Color.GRAY);
         highScore.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
         this.add(score, BorderLayout.WEST);
         this.add(highScore, BorderLayout.EAST);

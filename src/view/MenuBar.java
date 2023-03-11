@@ -51,7 +51,7 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
         this.myBoard.addPropertyChangeListener(this);
         this.add(buildFileMenu());
         this.setPreferredSize(new Dimension(MENU_BAR_WIDTH, MENU_BAR_HEIGHT));
-        this.setBackground(Color.CYAN);
+        this.setBackground(Color.GRAY);
         this.setVisible(true);
     }
 

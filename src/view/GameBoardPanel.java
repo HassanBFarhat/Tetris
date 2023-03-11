@@ -8,13 +8,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
+import java.util.Random;
 import javax.swing.JPanel;
 import model.Board;
 import model.MovableTetrisPiece;
@@ -83,8 +82,7 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         super();
         this.myBoard = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
         this.myBoard.addPropertyChangeListener(this);
-        this.setUpKeyListener();
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.DARK_GRAY);
         this.setPreferredSize(new Dimension(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT));
         this.setVisible(true);
     }
@@ -123,11 +121,12 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
         // Obtains the points of the blocks at given random rotation.
         final int[][] nextCurrPiecePoints =
                 myMoveablePiece.getTetrisPiece().getPointsByRotation(Rotation.random());
+        final Color randomlyPickedColor = getRandomColor();
 
         // Draws out the shape and shapes outline for the given piece to be played.
         for (final int[] nextCurrPiecePoint : nextCurrPiecePoints) {
             for (int j = 0; j < nextCurrPiecePoint.length - 1; j++) {
-                g2d.setPaint(Color.MAGENTA);
+                g2d.setPaint(randomlyPickedColor);
                 myShape = new Rectangle2D.Double(nextCurrPiecePoint[j] * RECTANGLE_WIDTH + 1,
                         nextCurrPiecePoint[j + 1] * RECTANGLE_WIDTH,
                         RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
@@ -141,6 +140,19 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
                 g2d.draw(myShapeOutline);
             }
         }
+    }
+
+    /** Picks Random colors from the given standard color of Tetris pieces.
+     *
+     * @return Random color
+     */
+    private Color getRandomColor() {
+        final Color[] colors = {Color.CYAN, Color.YELLOW, new Color(128, 0, 128),
+            Color.GREEN, Color.BLUE, Color.RED, Color.ORANGE};
+
+        final Random random = new Random();
+        final int i = random.nextInt(colors.length);
+        return colors[i];
     }
 
     /**
@@ -162,53 +174,6 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
                     location.y() * RECTANGLE_HEIGHT,
                     RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
             repaint();
-        }
-    }
-
-    /** Sets up the focusable and adds key listener to innerclass. */
-    private void setUpKeyListener() {
-        this.addKeyListener(new ControlKeyListener());
-        this.setFocusable(true);
-        this.requestFocusInWindow();
-    }
-
-
-    // inner class
-
-    /**
-     * Inner class that helps to determine the key event and what to do
-     * when a certain key is pressed.
-     *
-     * @author Hassan Farhat
-     * @version Winter 2023
-     */
-    protected final class ControlKeyListener extends KeyAdapter {
-
-        /** Private constructor to satisfy PMD. */
-        private ControlKeyListener() { super(); }
-
-        @Override
-        public void keyPressed(final KeyEvent theEvent) {
-            if (theEvent.getKeyCode() == KeyEvent.VK_S
-                    || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                myBoard.down();
-                System.out.println("down");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_A
-                    || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                myBoard.left();
-                System.out.println("left");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_D
-                    || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                myBoard.right();
-                System.out.println("right");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_W
-                    || theEvent.getKeyCode() == KeyEvent.VK_UP) {
-                myBoard.rotateCW();
-                System.out.println("rotateCW");
-            } else if (theEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-                myBoard.drop();
-                System.out.println("drop");
-            }
         }
     }
 

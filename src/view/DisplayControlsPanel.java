@@ -55,7 +55,7 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
         super();
         this.myBoard = new Board(EXIT_WIDTH, EXIT_HEIGHT);
         this.myBoard.addPropertyChangeListener(this);
-        this.setBackground(Color.YELLOW);
+        this.setBackground(Color.GRAY);
         this.setPreferredSize(new Dimension(EXIT_WIDTH, EXIT_HEIGHT));
         this.setVisible(true);
 

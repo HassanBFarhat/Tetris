@@ -11,7 +11,10 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.*;
 import model.wallkicks.WallKick;
+import view.MainGamePanel;
+
 
 /**
  * Represents a Tetris board. Board objects communicate with clients via Observer pattern. 
@@ -173,9 +176,11 @@ public class Board implements BoardLayoutAndControls {
         myGameOver = false;
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
-        // TODO Publish Update!
-        myCurrentPiece = new MovableTetrisPiece(TetrisPiece.getRandomPiece(), new Point(0, 0));
-        myNextPiece = TetrisPiece.getRandomPiece();
+        // TODO Publish Update!XX
+        new MainGamePanel(this).startsTimer();
+        myCurrentPiece = this.nextMovablePiece(true);
+        this.prepareNextMovablePiece();
+        myPcs.notifyAll();
     }
 
     /**
@@ -220,7 +225,7 @@ public class Board implements BoardLayoutAndControls {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            // TODO Publish Update!
+            // TODO Publish Update!XX
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.down();
             notifyObserversOfLocationChange(old);
@@ -233,7 +238,7 @@ public class Board implements BoardLayoutAndControls {
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
-            // TODO: not sure if this is the proper implementation.
+            // TODO Publish Update!XX
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.left();
             notifyObserversOfLocationChange(old);
@@ -246,7 +251,7 @@ public class Board implements BoardLayoutAndControls {
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
-            // TODO: not sure if this is the proper implementation.
+            // TODO Publish Update!XX
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.right();
             notifyObserversOfLocationChange(old);
@@ -262,6 +267,7 @@ public class Board implements BoardLayoutAndControls {
     private void notifyObserversOfLocationChange(final Point theOldPosition) {
         myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition,
                 myCurrentPiece.getPosition());
+        myPcs.notifyAll();
     }
 
     /**
@@ -402,9 +408,11 @@ public class Board implements BoardLayoutAndControls {
             myCurrentPiece = theMovedPiece;
             result = true;
             if (!myDrop) {
-                // TODO Publish Update!
-
+                // TODO Publish Update!XX
+                this.setPoint(this.getBoard(), myCurrentPiece.getPosition(),
+                        myCurrentPiece.getTetrisPiece().getBlock());
             }
+            myPcs.notifyAll();
         }
         return result;
     }
@@ -465,6 +473,7 @@ public class Board implements BoardLayoutAndControls {
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
              // TODO Publish Update!
+                myPcs.notifyAll();
             }
         }
         // loop through list backwards removing items by index
@@ -518,7 +527,20 @@ public class Board implements BoardLayoutAndControls {
             row[thePoint.x()] = theBlock;
         } else if (!myGameOver) {
             myGameOver = true;
-            // TODO Publish Update!
+
+            // TODO Publish Update!XX
+
+            myPcs.notifyAll();
+            new MainGamePanel(this).stopTimer();
+            final int selectedValue = JOptionPane.showOptionDialog(null,
+                    "GAME OVER. Would you like to play again?", "Play Again?",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, null, null);
+            if (selectedValue == JOptionPane.YES_OPTION) {
+                this.newGame();
+            } else if (selectedValue == JOptionPane.NO_OPTION) {
+                System.exit(0);
+            }
         }
     }
 
@@ -592,7 +614,8 @@ public class Board implements BoardLayoutAndControls {
             myNextPiece = myNonRandomPieces.get(mySequenceIndex++);
         }
         if (share && !myGameOver) {
-            // TODO Publish Update!
+            // TODO Publish Update!XX
+            myPcs.notifyAll();
         }
     }
 
