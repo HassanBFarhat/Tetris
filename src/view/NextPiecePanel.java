@@ -61,7 +61,7 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
 
 
     /** Font used to display the message. */
-    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 22);
 
     /** Used to hold integer value for thickness of border. */
     private static final int THICKNESS = 4;

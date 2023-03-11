@@ -1,14 +1,12 @@
 package view;
 
 import interfaces.BoardLayoutAndControls;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import model.Board;
@@ -24,7 +22,7 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
     // static fields
 
     /** Font used to display the message. */
-    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 22);
 
     /** Used to hold integer value for thickness of border. */
     private static final int THICKNESS = 4;
@@ -60,6 +58,46 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
         this.setVisible(true);
 
         controlsBorder();
+
+        JLabel leftKey = new JLabel("Move Left:     left arrow and 'a' and 'A' ", SwingConstants.CENTER);
+        JLabel rightKey = new JLabel("Move Right:     right arrow and 'd' and 'D' ", SwingConstants.CENTER);
+        JLabel rotateKey = new JLabel("Rotate:      up arrow and 'w' and 'W' ", SwingConstants.CENTER);
+        JLabel downKey = new JLabel("Move Down:     down arrow and 's' and 'S' ", SwingConstants.CENTER);
+        JLabel dropKey = new JLabel("Drop:       space", SwingConstants.CENTER);
+        JLabel pauseKey = new JLabel("How to Pause:      esc to pause game ", SwingConstants.CENTER);
+
+//        String left = "Move Left:     left arrow and 'a' and 'A' ";
+//        String right = "Move Right:     right arrow and 'd' and 'D' " ;
+//        String rotate = "Rotate:      up arrow and 'w' and 'W' ";
+//        String down = "Move Down:     down arrow and 's' and 'S' ";
+//        String drop = "Drop:      space ";
+
+        rightKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        leftKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        rotateKey.setFont(new java.awt.Font("IMPACT",Font.PLAIN, 20));
+        downKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        dropKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        pauseKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+
+
+
+//        leftKey.setText(left + "\r\n");
+//        rightKey.setText(right + "\r\n");
+//        rotateKey.setText(rotate + "\r\n");
+//        downKey.setText(down + "\r\n");
+//        dropKey.setText(drop + "\r\n");
+
+
+
+
+        add(pauseKey);
+        add(downKey);
+        add(rightKey);
+        add(leftKey);
+        add(rotateKey);
+        add(dropKey);
+
+
     }
 
     /**
@@ -77,6 +115,8 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
 
         setBorder(namePanel);
     }
+
+
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {

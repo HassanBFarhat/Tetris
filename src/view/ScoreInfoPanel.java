@@ -35,7 +35,7 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
     private static final int SCORE_HEIGHT = 255;
 
     /** Font used to display the message. */
-    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 18);
+    private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 22);
 
 
     // instance field
