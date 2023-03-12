@@ -226,7 +226,7 @@ public class Board implements BoardLayoutAndControls {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            // TODO Publish Update!XX
+           
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.down();
             notifyObserversOfLocationChange(old);
@@ -410,7 +410,7 @@ public class Board implements BoardLayoutAndControls {
             myCurrentPiece = theMovedPiece;
             result = true;
             if (!myDrop) {
-                // TODO Publish Update!XX
+                //
                 this.setPoint(this.getBoard(), myCurrentPiece.getPosition(),
                         myCurrentPiece.getTetrisPiece().getBlock());
             }
@@ -475,7 +475,7 @@ public class Board implements BoardLayoutAndControls {
             }
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
-             // TODO Publish Update!
+             //
                 myPcs.notifyAll();
             }
         }
@@ -531,7 +531,7 @@ public class Board implements BoardLayoutAndControls {
         } else if (!myGameOver) {
             myGameOver = true;
 
-            // 
+      
 
             myPcs.notifyAll();
             new MainGamePanel(this).stopTimer();
