@@ -239,7 +239,7 @@ public class Board implements BoardLayoutAndControls {
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
-            // TODO Publish Update!XX
+            
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.left();
             notifyObserversOfLocationChange(old);
@@ -252,7 +252,7 @@ public class Board implements BoardLayoutAndControls {
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
-            // TODO Publish Update!XX
+           
             final Point old = myCurrentPiece.getPosition();
             myCurrentPiece.right();
             notifyObserversOfLocationChange(old);
@@ -617,7 +617,7 @@ public class Board implements BoardLayoutAndControls {
             myNextPiece = myNonRandomPieces.get(mySequenceIndex++);
         }
         if (share && !myGameOver) {
-            // TODO Publish Update!XX
+          
 
             myPcs.notifyAll();
         }
