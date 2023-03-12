@@ -180,6 +180,7 @@ public class Board implements BoardLayoutAndControls {
         new MainGamePanel(this).startsTimer();
         myCurrentPiece = this.nextMovablePiece(true);
         this.prepareNextMovablePiece();
+        this.new BoardData().getBoardData();
         myPcs.notifyAll();
     }
 
@@ -267,6 +268,7 @@ public class Board implements BoardLayoutAndControls {
     private void notifyObserversOfLocationChange(final Point theOldPosition) {
         myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition,
                 myCurrentPiece.getPosition());
+        this.new BoardData().getBoardData();
         myPcs.notifyAll();
     }
 
@@ -412,6 +414,7 @@ public class Board implements BoardLayoutAndControls {
                 this.setPoint(this.getBoard(), myCurrentPiece.getPosition(),
                         myCurrentPiece.getTetrisPiece().getBlock());
             }
+            this.new BoardData().getBoardData();
             myPcs.notifyAll();
         }
         return result;
@@ -615,6 +618,7 @@ public class Board implements BoardLayoutAndControls {
         }
         if (share && !myGameOver) {
             // TODO Publish Update!XX
+
             myPcs.notifyAll();
         }
     }
