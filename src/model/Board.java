@@ -3,18 +3,18 @@
  * 
  * An implementation of the classic game "Tetris".
  */
-
 package model;
 
-import java.awt.*;
+import interfaces.BoardLayoutAndControls;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import interfaces.BoardLayoutAndControls;
+import javax.swing.*;
 import model.wallkicks.WallKick;
+import view.MainGamePanel;
+
 
 /**
  * Represents a Tetris board. Board objects communicate with clients via Observer pattern. 
@@ -105,11 +105,7 @@ public class Board implements BoardLayoutAndControls {
      * The property change support responsible for dispatching change event
      * to observables.
      */
-    private PropertyChangeSupport myPcs;
-
-    /**Store board dimension.*/
-    private final Dimension myDimension;
-
+    private final PropertyChangeSupport myPcs;
 
 
     // Constructors
@@ -120,7 +116,6 @@ public class Board implements BoardLayoutAndControls {
      */
     public Board() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        myPcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -133,9 +128,7 @@ public class Board implements BoardLayoutAndControls {
         super();
         myWidth = theWidth;
         myHeight = theHeight;
-        myDimension = new Dimension(myWidth, myHeight);
         myFrozenBlocks = new LinkedList<Block[]>();
-         
         myNonRandomPieces = new ArrayList<TetrisPiece>();
         mySequenceIndex = 0;
         myPcs = new PropertyChangeSupport(this);
@@ -174,7 +167,6 @@ public class Board implements BoardLayoutAndControls {
      * and before each new game.
      */
     public void newGame() {
-        
         mySequenceIndex = 0;
         myFrozenBlocks.clear();
         for (int h = 0; h < myHeight; h++) {
@@ -184,8 +176,12 @@ public class Board implements BoardLayoutAndControls {
         myGameOver = false;
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
-        
-        // TODO Publish Update!
+        // TODO Publish Update!XX
+        new MainGamePanel(this).startsTimer();
+        myCurrentPiece = this.nextMovablePiece(true);
+        this.prepareNextMovablePiece();
+        this.new BoardData().getBoardData();
+        myPcs.notifyAll();
     }
 
     /**
@@ -230,12 +226,11 @@ public class Board implements BoardLayoutAndControls {
             if (!myGameOver) {
                 myCurrentPiece = nextMovablePiece(false);
             }
-            // TODO Publish Update!
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(0, 1);
-            myPcs.firePropertyChange(PROPERTY_DOWN, oldPos, myCurrentPiece.getPosition());
+            // TODO Publish Update!XX
+            final Point old = myCurrentPiece.getPosition();
+            myCurrentPiece.down();
+            notifyObserversOfLocationChange(old);
         }
-
     }
 
     /**
@@ -244,11 +239,10 @@ public class Board implements BoardLayoutAndControls {
     public void left() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.left());
-
-            // TODO: not sure if this is the proper implementation.
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(-1, 0);
-            myPcs.firePropertyChange(PROPERTY_LEFT, oldPos, myCurrentPiece.getPosition());
+            // TODO Publish Update!XX
+            final Point old = myCurrentPiece.getPosition();
+            myCurrentPiece.left();
+            notifyObserversOfLocationChange(old);
         }
     }
 
@@ -258,12 +252,24 @@ public class Board implements BoardLayoutAndControls {
     public void right() {
         if (myCurrentPiece != null) {
             move(myCurrentPiece.right());
-
-            // TODO: not sure if this is the proper implementation.
-            final Point oldPos = myCurrentPiece.getPosition();
-            myCurrentPiece.getPosition().transform(1, 0);
-            myPcs.firePropertyChange(PROPERTY_RIGHT, oldPos, myCurrentPiece.getPosition());
+            // TODO Publish Update!XX
+            final Point old = myCurrentPiece.getPosition();
+            myCurrentPiece.right();
+            notifyObserversOfLocationChange(old);
         }
+    }
+
+    /**
+     * Tells the Property Change Support to fire a property change once piece
+     * position is altered.
+     *
+     * @param theOldPosition takes the old point of piece on board.
+     */
+    private void notifyObserversOfLocationChange(final Point theOldPosition) {
+        myPcs.firePropertyChange(PROPERTY_CHANGED, theOldPosition,
+                myCurrentPiece.getPosition());
+        this.new BoardData().getBoardData();
+        myPcs.notifyAll();
     }
 
     /**
@@ -325,9 +331,9 @@ public class Board implements BoardLayoutAndControls {
             down();  // move down one more time to freeze in place
         }
     }
-    
-
-
+    /**
+     * Displays a string representation of the Game Board.
+     */
     @Override
     public String toString() {
         final List<Block[]> board = getBoard();
@@ -367,18 +373,6 @@ public class Board implements BoardLayoutAndControls {
     }
 
     /**
-     * Get the board dimensions.
-     *
-     * @return Height of the board.
-     */
-    @Override
-    public Dimension getBoardDimensions() {
-        return new Dimension(myDimension);
-    }
-
-
-
-    /**
      * Adds a property change listener to the list of listeners in
      * Property Change Support.
      *
@@ -416,8 +410,12 @@ public class Board implements BoardLayoutAndControls {
             myCurrentPiece = theMovedPiece;
             result = true;
             if (!myDrop) {
-                // TODO Publish Update!
+                // TODO Publish Update!XX
+                this.setPoint(this.getBoard(), myCurrentPiece.getPosition(),
+                        myCurrentPiece.getTetrisPiece().getBlock());
             }
+            this.new BoardData().getBoardData();
+            myPcs.notifyAll();
         }
         return result;
     }
@@ -478,6 +476,7 @@ public class Board implements BoardLayoutAndControls {
             if (complete) {
                 completeRows.add(myFrozenBlocks.indexOf(row));
              // TODO Publish Update!
+                myPcs.notifyAll();
             }
         }
         // loop through list backwards removing items by index
@@ -531,7 +530,20 @@ public class Board implements BoardLayoutAndControls {
             row[thePoint.x()] = theBlock;
         } else if (!myGameOver) {
             myGameOver = true;
-            // TODO Publish Update!
+
+            // TODO Publish Update!XX
+
+            myPcs.notifyAll();
+            new MainGamePanel(this).stopTimer();
+            final int selectedValue = JOptionPane.showOptionDialog(null,
+                    "GAME OVER. Would you like to play again?", "Play Again?",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, null, null);
+            if (selectedValue == JOptionPane.YES_OPTION) {
+                this.newGame();
+            } else if (selectedValue == JOptionPane.NO_OPTION) {
+                System.exit(0);
+            }
         }
     }
 
@@ -605,7 +617,9 @@ public class Board implements BoardLayoutAndControls {
             myNextPiece = myNonRandomPieces.get(mySequenceIndex++);
         }
         if (share && !myGameOver) {
-            // TODO Publish Update!
+            // TODO Publish Update!XX
+
+            myPcs.notifyAll();
         }
     }
 
@@ -653,5 +667,4 @@ public class Board implements BoardLayoutAndControls {
         
     } // end inner class BoardData
 
-    
 }

@@ -1,7 +1,6 @@
 package interfaces;
 
-
-import java.awt.Dimension;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import model.TetrisPiece;
 
@@ -12,7 +11,15 @@ import model.TetrisPiece;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
+public interface BoardLayoutAndControls {
+
+    // Property Name
+
+    /** A property name for current game piece to drop down. */
+    String PROPERTY_CHANGED = "changed on board";
+
+
+    // public methods
 
     /**
      * Get the width of the board.
@@ -27,14 +34,6 @@ public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
      * @return Height of the board.
      */
     int getHeight();
-
-
-    /**
-     * Get the board dimensions.
-     *
-     * @return Height of the board.
-     */
-    Dimension getBoardDimensions();
 
     /**
      * Resets the board for a new game.
@@ -97,4 +96,17 @@ public interface BoardLayoutAndControls extends PropertyChangeGamePieces {
      */
     String toString();
 
+    /**
+     * Adds an observer to list of observers maintains by PCS.
+     *
+     * @param theListener the observer to be added.
+     */
+    void addPropertyChangeListener(PropertyChangeListener theListener);
+
+    /**
+     * Removes an observer from a list of observers maintains by PCS.
+     *
+     * @param theListener the observer to be removed.
+     */
+    void removePropertyChangeListener(PropertyChangeListener theListener);
 }
