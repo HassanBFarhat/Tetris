@@ -1,15 +1,12 @@
 package view;
 
 import interfaces.BoardLayoutAndControls;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import model.Board;
@@ -37,6 +34,31 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
     /** Font used to display the message. */
     private static final Font TEXT_FONT = new Font("IMPACT", Font.ITALIC, 22);
 
+    /** The Game Score */
+    private JLabel myGameScore;
+
+    /** Lines cleared. */
+    private JLabel myLinesCleared;
+
+    /** The Current level. */
+    private JLabel myCurrentLevel;
+
+    /** The next level. */
+    private JLabel myNextLevel;
+
+    /** The number of cleared lines. */
+    private int myLines;
+
+    /** The score number. */
+    private int myScore;
+
+    /** The level number. */
+    private int myGameLevel;
+
+    /**  When the next level is.  */
+    private int myNextGameLevel;
+
+
 
     // instance field
 
@@ -57,7 +79,28 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
         this.setLayout(new BorderLayout());
 
         setUpScorePanels();
+        scorePanelValues();
+
     }
+
+    /**
+     * Sets up starting values for the current game,
+     * NOT SURE IF NEXT LEVEL IS SET UP RIGHT.
+     */
+
+    private void scorePanelValues() {
+
+        myGameLevel = 1;
+        myScore = 0;
+        myLines = 0;
+        myNextGameLevel = 2;
+
+    }
+
+    /**
+     * Sets up the two panels current score,
+     * and high score with the information needed.
+     */
 
     private void setUpScorePanels() {
         final JPanel score = new JPanel();
@@ -74,12 +117,82 @@ public class ScoreInfoPanel extends JPanel implements PropertyChangeListener {
                 "Current Score ", TitledBorder.CENTER,
                 TitledBorder.BOTTOM, TEXT_FONT,
                 Color.BLACK));
+        final Color gold = new Color(255, 204, 51);
 
         highScore.setBorder(BorderFactory.createTitledBorder(outerLine,
                 "High Score ", TitledBorder.CENTER,
                 TitledBorder.BOTTOM, TEXT_FONT,
-                Color.BLACK));
+                gold));
+
+
+        JLabel gameScore = new JLabel("Score:   " + myScore);
+        JLabel linesCleared = new JLabel("Lines Cleared: " + myLinesCleared);
+        JLabel currentLevel = new JLabel("Level: " + myGameLevel + "     ");
+        JLabel nextLevel = new JLabel("Next Level: " + myNextGameLevel);
+
+        JLabel highLevel = new JLabel("Level: " + myGameLevel);
+        JLabel highLinesCleared = new JLabel("Lines Cleared: " + myLinesCleared);
+        JLabel highGameScore = new JLabel("Score:   " + myScore);
+
+        highGameScore.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        highLinesCleared.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        highLevel.setFont(new java.awt.Font("IMPACT",Font.PLAIN, 20));
+
+
+        gameScore.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        linesCleared.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+        currentLevel.setFont(new java.awt.Font("IMPACT",Font.PLAIN, 20));
+        nextLevel.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
+
+        final Color gold2 = new Color(255, 204, 51);
+
+
+        highGameScore.setForeground(gold2);
+        highLinesCleared.setForeground(gold2);
+        highLevel.setForeground(gold2);
+
+        score.add(gameScore);
+        score.add(linesCleared);
+        score.add(currentLevel);
+        score.add(nextLevel);
+
+        highScore.add(highGameScore);
+        highScore.add(highLinesCleared);
+        highScore.add(highLevel);
+
     }
+
+
+
+//    private void score() {
+//
+//        final Box box = Box.createVerticalBox();
+//
+//        myGameScore = new JLabel("Score: " + myScore);
+//        myLinesCleared = new JLabel("Lines Cleared: " + myLines);
+//        myCurrentLevel = new JLabel(" Current Level: " + myGameLevel);
+//        myNextLevel = new JLabel("Next Level: " + myNextGameLevel);
+//
+//        myGameScore.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        myLinesCleared.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        myCurrentLevel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        myNextLevel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//
+//
+//        myGameScore.setForeground(Color.WHITE);
+//        myLinesCleared.setForeground(Color.WHITE);
+//        myCurrentLevel.setForeground(Color.WHITE);
+//        myNextLevel.setForeground(Color.WHITE);
+//
+//
+//        box.add(myGameScore);
+//        box.add(myLinesCleared);
+//        box.add(myCurrentLevel);
+//        box.add(myNextLevel);
+//
+//
+//        add(box);
+//    }
 
 
     @Override
