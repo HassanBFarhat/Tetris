@@ -68,11 +68,9 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
     /** Sets up the main panels within the GUI. */
     private void setUpGUI() {
         final MenuBar menuBar = new MenuBar();
-        this.myBoard.addPropertyChangeListener(menuBar);
         this.add(menuBar, BorderLayout.NORTH);
 
         final InformationPanel infoPanel = new InformationPanel();
-        this.myBoard.addPropertyChangeListener(infoPanel);
         this.add(infoPanel, BorderLayout.EAST);
 
         final GameBoardPanel gameBoardPanel = new GameBoardPanel();
@@ -82,11 +80,9 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        System.out.println("TEST 4");
         if (Board.PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
             repaint();
         }
-        repaint();
     }
 
     /** Stops the timer on the game board. */
@@ -129,22 +125,17 @@ public class MainGamePanel extends JPanel implements PropertyChangeListener {
             if (theEvent.getKeyCode() == KeyEvent.VK_S
                     || theEvent.getKeyCode() == KeyEvent.VK_DOWN) {
                 myBoard.down();
-                System.out.println("down");
             } else if (theEvent.getKeyCode() == KeyEvent.VK_A
                     || theEvent.getKeyCode() == KeyEvent.VK_LEFT) {
                 myBoard.left();
-                System.out.println("left");
             } else if (theEvent.getKeyCode() == KeyEvent.VK_D
                     || theEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
                 myBoard.right();
-                System.out.println("right");
             } else if (theEvent.getKeyCode() == KeyEvent.VK_W
                     || theEvent.getKeyCode() == KeyEvent.VK_UP) {
                 myBoard.rotateCW();
-                System.out.println("rotateCW");
             } else if (theEvent.getKeyCode() == KeyEvent.VK_SPACE) {
                 myBoard.drop();
-                System.out.println("drop");
             } else if (theEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 myTimer.stop();
                 JOptionPane.showMessageDialog(MainGamePanel.this,

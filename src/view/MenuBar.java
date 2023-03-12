@@ -4,8 +4,6 @@ package view;
 import interfaces.BoardLayoutAndControls;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -21,7 +19,7 @@ import model.Board;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class MenuBar extends JMenuBar implements PropertyChangeListener {
+public class MenuBar extends JMenuBar {
 
     // static fields
 
@@ -48,7 +46,6 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
     public MenuBar() {
         super();
         this.myBoard = new Board(MENU_BAR_WIDTH, MENU_BAR_HEIGHT);
-        this.myBoard.addPropertyChangeListener(this);
         this.add(buildFileMenu());
         this.setPreferredSize(new Dimension(MENU_BAR_WIDTH, MENU_BAR_HEIGHT));
         this.setBackground(Color.GRAY);
@@ -71,11 +68,6 @@ public class MenuBar extends JMenuBar implements PropertyChangeListener {
 
     private JMenuItem buildMenuItem(final String theText) {
         return new JMenuItem(theText);
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent theEvent) {
-        System.out.println("TEST 5");
     }
 
 }

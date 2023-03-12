@@ -165,7 +165,6 @@ public class GameBoardPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
-            System.out.println("TEST 2");
             final model.Point location = (model.Point) theEvent.getNewValue();
             myShape.setFrame(location.x() * RECTANGLE_WIDTH,
                     location.y() * RECTANGLE_HEIGHT,

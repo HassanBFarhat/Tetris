@@ -3,8 +3,6 @@ package view;
 import interfaces.BoardLayoutAndControls;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.Serial;
 import javax.swing.JPanel;
 import model.Board;
@@ -15,7 +13,7 @@ import model.Board;
  * @author Hassan Farhat
  * @version Winter 2023
  */
-public class InformationPanel extends JPanel implements PropertyChangeListener {
+public class InformationPanel extends JPanel {
 
     // static fields
 
@@ -35,6 +33,13 @@ public class InformationPanel extends JPanel implements PropertyChangeListener {
     /** Stores reference to the Board. */
     private final BoardLayoutAndControls myBoard;
 
+    /** Stores reference to next piece panel. */
+    private NextPiecePanel myNextPiecePanel;
+
+    /** Stores reference to score panel. */
+    private ScoreInfoPanel myScoreInfoPanel;
+
+
 
     // constructor
 
@@ -44,7 +49,6 @@ public class InformationPanel extends JPanel implements PropertyChangeListener {
     public InformationPanel() {
         super();
         this.myBoard = new Board(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT);
-        this.myBoard.addPropertyChangeListener(this);
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(INFO_PANEL_WIDTH, INFO_PANEL_HEIGHT));
         this.setUpInfoPanel();
@@ -53,22 +57,16 @@ public class InformationPanel extends JPanel implements PropertyChangeListener {
 
     /** Sets up all the panels required for the info panel. */
     private void setUpInfoPanel() {
-        final NextPiecePanel nextPiecePanel = new NextPiecePanel();
-        this.myBoard.addPropertyChangeListener(nextPiecePanel);
-        this.add(nextPiecePanel, BorderLayout.NORTH);
+        this.myNextPiecePanel = new NextPiecePanel();
+        this.myBoard.addPropertyChangeListener(myNextPiecePanel);
+        this.add(myNextPiecePanel, BorderLayout.NORTH);
 
-        final ScoreInfoPanel scoreInfoPanel = new ScoreInfoPanel();
-        this.myBoard.addPropertyChangeListener(scoreInfoPanel);
-        this.add(scoreInfoPanel, BorderLayout.CENTER);
+        myScoreInfoPanel = new ScoreInfoPanel();
+        this.myBoard.addPropertyChangeListener(myScoreInfoPanel);
+        this.add(myScoreInfoPanel, BorderLayout.CENTER);
 
         final DisplayControlsPanel displayControlsPanel = new DisplayControlsPanel();
-        this.myBoard.addPropertyChangeListener(displayControlsPanel);
         this.add(displayControlsPanel, BorderLayout.SOUTH);
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent theEvent) {
-        System.out.println("TEST 3");
     }
 
 }

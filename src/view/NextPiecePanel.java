@@ -185,8 +185,8 @@ public class NextPiecePanel extends JPanel implements PropertyChangeListener {
      */
     @Override
     public void propertyChange(final PropertyChangeEvent theEvent) {
-        System.out.println("TEST 6");
         if (PROPERTY_CHANGED.equals(theEvent.getPropertyName())) {
+            myNextPiece = TetrisPiece.getRandomPiece();
             repaint();
         }
     }
