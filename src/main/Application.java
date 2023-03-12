@@ -1,5 +1,14 @@
 package main;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import model.Board;
 import view.MainGamePanel;
@@ -36,10 +45,20 @@ public final class Application {
      * @param theArgs allows us to run array of string arguments to
      *                be executed in our program.
      */
-    public static void main(final String[] theArgs) {
+    public static void main(final String[] theArgs) throws UnsupportedAudioFileException,
+            IOException, LineUnavailableException, URISyntaxException {
         final JFrame gameFrame = new JFrame("Tetris");
         final Board board = new Board(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT);
         final MainGamePanel mainPanel = new MainGamePanel(board);
+        final URL f = Application.class.getClassLoader().getResource("music/TetrisMusic.wav");
+        assert f != null;
+        final File soundFile = new File(f.toURI());
+        final AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+        final Clip audioClip = AudioSystem.getClip();
+        audioClip.open(audioStream);
+        audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+        audioClip.start();
+
         board.addPropertyChangeListener(mainPanel);
 
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
