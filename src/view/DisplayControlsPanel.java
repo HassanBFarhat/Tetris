@@ -59,12 +59,12 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
 
         controlsBorder();
 
-        JLabel leftKey = new JLabel("Move Left:     left arrow and 'a' and 'A' ", SwingConstants.CENTER);
-        JLabel rightKey = new JLabel("Move Right:     right arrow and 'd' and 'D' ", SwingConstants.CENTER);
-        JLabel rotateKey = new JLabel("Rotate:      up arrow and 'w' and 'W' ", SwingConstants.CENTER);
-        JLabel downKey = new JLabel("Move Down:     down arrow and 's' and 'S' ", SwingConstants.CENTER);
-        JLabel dropKey = new JLabel("Drop:       space", SwingConstants.CENTER);
-        JLabel pauseKey = new JLabel("How to Pause:      esc to pause game ", SwingConstants.CENTER);
+        JLabel leftKey = new JLabel("Move Left:     left arrow and 'a' and 'A' ");
+        JLabel rightKey = new JLabel("Move Right:     right arrow and 'd' and 'D' ");
+        JLabel rotateKey = new JLabel("Rotate:      up arrow and 'w' and 'W' ");
+        JLabel downKey = new JLabel("Move Down:     down arrow and 's' and 'S' ");
+        JLabel dropKey = new JLabel("Drop:       space");
+        JLabel pauseKey = new JLabel("How to Pause:      esc to pause game ");
 
 //        String left = "Move Left:     left arrow and 'a' and 'A' ";
 //        String right = "Move Right:     right arrow and 'd' and 'D' " ;
@@ -79,16 +79,11 @@ public class DisplayControlsPanel extends JPanel implements PropertyChangeListen
         dropKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
         pauseKey.setFont(new java.awt.Font("IMPACT", Font.PLAIN, 20));
 
-
-
 //        leftKey.setText(left + "\r\n");
 //        rightKey.setText(right + "\r\n");
 //        rotateKey.setText(rotate + "\r\n");
 //        downKey.setText(down + "\r\n");
 //        dropKey.setText(drop + "\r\n");
-
-
-
 
         add(pauseKey);
         add(downKey);
