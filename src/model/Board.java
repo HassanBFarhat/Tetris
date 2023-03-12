@@ -176,7 +176,7 @@ public class Board implements BoardLayoutAndControls {
         myGameOver = false;
         myCurrentPiece = nextMovablePiece(true);
         myDrop = false;
-        // TODO Publish Update!XX
+        //
         new MainGamePanel(this).startsTimer();
         myCurrentPiece = this.nextMovablePiece(true);
         this.prepareNextMovablePiece();
@@ -531,7 +531,7 @@ public class Board implements BoardLayoutAndControls {
         } else if (!myGameOver) {
             myGameOver = true;
 
-            // TODO Publish Update!XX
+            // 
 
             myPcs.notifyAll();
             new MainGamePanel(this).stopTimer();
